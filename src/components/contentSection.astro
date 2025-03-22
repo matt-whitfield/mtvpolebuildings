@@ -1,0 +1,28 @@
+---
+interface Props {
+  reverse?: boolean;
+}
+
+const { reverse = false } = Astro.props;
+---
+
+<section class="py-16 px-4 md:px-8">
+  <div class={`container mx-auto flex flex-col ${reverse ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center`}>
+    <div class="w-full md:w-1/2">
+      <img 
+        src="/images/family-owned-1500x750.jpg" 
+        alt="Family Owned Business" 
+        class="w-full h-auto rounded-lg shadow-lg"
+      />
+    </div>
+    <div class="w-full md:w-1/2">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">Family Owned, Locally Operated</h1>
+      <p class="text-lg text-gray-600 leading-relaxed">
+        As a homeowner, it can be hard to know where to start, or who to trust. When you work with Mountain View Pole Buildings, you're working with Donnie Smathers and Zack Whitfield, licensed contractors with a reputation of quality craftsmanship, professional integrity, and a strong family bond.
+      </p>
+      <p class="text-lg text-gray-600 leading-relaxed mt-4">
+        We operate in the community where we live. Our reputation and livelihood depend on our ability to provide the highest quality service. Learn more about who we are and what we build.
+      </p>
+    </div>
+  </div>
+</section>

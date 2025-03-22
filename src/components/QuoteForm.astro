@@ -1,0 +1,160 @@
+---
+---
+
+<div class="container mx-auto px-4">
+  <h2 class="text-3xl font-bold text-center mb-8">Request a Quote</h2>
+  <p class="text-center mb-8 text-gray-600">Fill out the form below and we'll get back to you with a custom quote for your project.</p>
+  
+  <form class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="form-group">
+        <label for="name" class="block text-gray-700 font-medium mb-2">Name *</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Your Name"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="block text-gray-700 font-medium mb-2">Email *</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="your.email@example.com"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="phone" class="block text-gray-700 font-medium mb-2">Phone Number *</label>
+        <input
+          type="tel"
+          id="phone"
+          name="phone"
+          required
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="(555) 555-5555"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="buildingSize" class="block text-gray-700 font-medium mb-2">Building Size *</label>
+        <input
+          type="text"
+          id="buildingSize"
+          name="buildingSize"
+          required
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="e.g., 30x40"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="buildingType" class="block text-gray-700 font-medium mb-2">Building Type *</label>
+        <select
+          id="buildingType"
+          name="buildingType"
+          required
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Select Type</option>
+          <option value="residential">Residential</option>
+          <option value="commercial">Commercial</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="location" class="block text-gray-700 font-medium mb-2">Building Location *</label>
+        <input
+          type="text"
+          id="location"
+          name="location"
+          required
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="City, State"
+        />
+      </div>
+
+      <div class="form-group md:col-span-2">
+        <label for="comments" class="block text-gray-700 font-medium mb-2">Additional Comments</label>
+        <textarea
+          id="comments"
+          name="comments"
+          rows="4"
+          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Please share any additional details about your project..."
+        ></textarea>
+      </div>
+    </div>
+
+    <div class="mt-6 text-center">
+      <button
+        type="submit"
+        class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+      >
+        Submit Quote Request
+      </button>
+    </div>
+  </form>
+</div>
+
+<style>
+  .form-group {
+    position: relative;
+  }
+
+  input:focus::placeholder,
+  textarea:focus::placeholder {
+    opacity: 0.5;
+  }
+
+  button[type="submit"] {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  button[type="submit"]:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+</style>
+
+<script>
+  // Basic form handling
+  const form = document.querySelector('form');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = Object.fromEntries(formData.entries());
+    
+    // Here you would typically send the data to your backend
+    console.log('Form submitted with data:', data);
+    
+    // For now, just show an alert
+    alert('Thank you for your quote request! We will contact you soon.');
+    (e.target as HTMLFormElement).reset();
+  });
+
+  // Basic phone number formatting
+  const phoneInput = document.getElementById('phone');
+  phoneInput?.addEventListener('input', (e) => {
+    const input = e.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, '');
+    if (value.length > 0) {
+      if (value.length <= 3) {
+        value = `(${value}`;
+      } else if (value.length <= 6) {
+        value = `(${value.slice(0, 3)}) ${value.slice(3)}`;
+      } else {
+        value = `(${value.slice(0, 3)}) ${value.slice(3, 6)}-${value.slice(6, 10)}`;
+      }
+    }
+    input.value = value;
+  });
+</script>

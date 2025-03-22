@@ -1,0 +1,273 @@
+---
+// Define the gallery images
+const galleryImages = [
+  {
+    src: '/images/workGallery/mtvpb old photos-10.webp',
+    alt: 'Construction project 1'
+  },
+  {
+    src: '/images/workGallery/mtvpb old photos-2.webp',
+    alt: 'Construction project 2'
+  },
+  {
+    src: '/images/workGallery/mtvpb old photos-7.webp',
+    alt: 'Construction project 3'
+  },
+  {
+    src: '/images/workGallery/mtvpb_9-4.webp',
+    alt: 'Construction project 4'
+  },
+  {
+    src: '/images/workGallery/mtvpb_9-7.webp',
+    alt: 'Construction project 5'
+  },
+  {
+    src: '/images/workGallery/mtvpb_9-8.webp',
+    alt: 'Construction project 6'
+  }
+];
+---
+
+<div class="gallery-section">
+  <div class="container mx-auto px-4 py-12">
+    <h2 class="text-3xl font-bold text-center mb-8 text-white">Our Work</h2>
+    
+    <div class="image-gallery grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+      {galleryImages.map((image, index) => (
+        <div class="polaroid-wrapper" style={`--rotation: ${Math.random() * 6 - 3}deg`}>
+          <div class="gallery-item polaroid" data-index={index}>
+            <div class="image-container">
+              <img 
+                src={image.src} 
+                alt={image.alt} 
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </div>
+            <div class="caption">{image.alt}</div>
+            <div class="pushpin"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox Modal -->
+<div id="gallery-lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+  <button id="close-lightbox" class="absolute top-6 right-6 text-white text-4xl">&times;</button>
+  <button id="prev-image" class="absolute left-6 text-white text-4xl">&larr;</button>
+  <button id="next-image" class="absolute right-6 text-white text-4xl">&rarr;</button>
+  <div class="max-w-4xl max-h-[80vh]">
+    <img id="lightbox-image" src="" alt="" class="max-h-[80vh] mx-auto">
+    <p id="image-caption" class="text-white text-center mt-4 text-lg"></p>
+  </div>
+</div>
+
+<style>
+  .gallery-section {
+    background-color: #D4B08C; /* Changed from #8B4513 to a lighter, warmer cork color */
+    background-image: 
+      repeating-linear-gradient(45deg, 
+        rgba(0,0,0,0.05) 0px, /* Reduced opacity from 0.1 to 0.05 for softer texture */
+        rgba(0,0,0,0.05) 2px,
+        transparent 2px, 
+        transparent 4px
+      ),
+      repeating-linear-gradient(-45deg, 
+        rgba(0,0,0,0.05) 0px, /* Reduced opacity from 0.1 to 0.05 for softer texture */
+        rgba(0,0,0,0.05) 2px,
+        transparent 2px, 
+        transparent 4px
+      );
+    padding: 2rem 0;
+  }
+
+  .polaroid-wrapper {
+    transform: rotate(var(--rotation));
+    transition: transform 0.3s ease;
+    z-index: 1;
+  }
+
+  .polaroid-wrapper:hover {
+    transform: rotate(var(--rotation)) scale(1.05);
+    z-index: 2;
+  }
+
+  .polaroid {
+    background: white;
+    padding: 1rem 1rem 2.5rem 1rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2), 0 8px 16px rgba(0,0,0,0.1);
+    position: relative;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .image-container {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+    background: #f0f0f0;
+  }
+
+  .caption {
+    font-family: 'Helvetica', sans-serif;
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  .pushpin {
+    width: 12px;
+    height: 12px;
+    background: #CC0000;
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .pushpin::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+  }
+
+  /* Lightbox styles */
+  #lightbox-image {
+    box-shadow: 0 0 32px rgba(0,0,0,0.5);
+    border: 12px solid white;
+    border-bottom: 40px solid white;
+  }
+
+  /* Navigation button hover effects */
+  #prev-image, #next-image, #close-lightbox {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+
+  #prev-image:hover, #next-image:hover, #close-lightbox:hover {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  // Wait for the DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    const lightbox = document.getElementById('gallery-lightbox') as HTMLDivElement;
+    const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
+    const imageCaption = document.getElementById('image-caption');
+    const closeButton = document.getElementById('close-lightbox');
+    const prevButton = document.getElementById('prev-image');
+    const nextButton = document.getElementById('next-image');
+    
+    if (!lightbox || !lightboxImage || !imageCaption || !closeButton || !prevButton || !nextButton) {
+      console.error('Required gallery elements not found');
+      return;
+    }
+
+    // Gallery images data from the component
+    const galleryImages = [
+      {
+        src: '/images/workGallery/mtvpb old photos-10.webp',
+        alt: 'Construction project 1'
+      },
+      {
+        src: '/images/workGallery/mtvpb old photos-2.webp',
+        alt: 'Construction project 2'
+      },
+      {
+        src: '/images/workGallery/mtvpb old photos-7.webp',
+        alt: 'Construction project 3'
+      },
+      {
+        src: '/images/workGallery/mtvpb_9-4.webp',
+        alt: 'Construction project 4'
+      },
+      {
+        src: '/images/workGallery/mtvpb_9-7.webp',
+        alt: 'Construction project 5'
+      },
+      {
+        src: '/images/workGallery/mtvpb_9-8.webp',
+        alt: 'Construction project 6'
+      }
+    ];
+    
+    let currentIndex = 0;
+    
+    // Open lightbox when clicking on an image
+    galleryItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        currentIndex = index;
+        showImage(currentIndex);
+        lightbox.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when lightbox is open
+      });
+    });
+    
+    // Close lightbox when clicking the close button
+    closeButton.addEventListener('click', closeLightbox);
+    
+    // Close lightbox when clicking outside the image
+    lightbox.addEventListener('click', (e: MouseEvent) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+    
+    // Navigate to previous image
+    prevButton.addEventListener('click', (e: MouseEvent) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+      showImage(currentIndex);
+    });
+    
+    // Navigate to next image
+    nextButton.addEventListener('click', (e: MouseEvent) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % galleryImages.length;
+      showImage(currentIndex);
+    });
+    
+    // Listen for keyboard navigation
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (lightbox.classList.contains('hidden')) return;
+      
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+        showImage(currentIndex);
+      } else if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % galleryImages.length;
+        showImage(currentIndex);
+      }
+    });
+    
+    // Function to show the current image in the lightbox
+    function showImage(index: number): void {
+      const image = galleryImages[index];
+      if (lightboxImage && imageCaption) {
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        imageCaption.textContent = image.alt;
+      }
+    }
+    
+    // Function to close the lightbox
+    function closeLightbox(): void {
+      lightbox.classList.add('hidden');
+      document.body.style.overflow = ''; // Restore scrolling
+    }
+  });
+</script>

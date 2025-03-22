@@ -1,0 +1,29 @@
+---
+// Work Radius component showing service area and embedded map
+---
+<div class="container mx-auto px-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <!-- Text Column -->
+    <div class="text-content">
+      <h2 class="text-3xl font-bold mb-4">Work Radius</h2>
+      <p class="text-lg mb-6">
+        We operate within a 50 mile radius of Shoshone County in North Idaho.
+      </p>
+    </div>
+    
+    <!-- Map Column -->
+    <div class="map-container">
+      <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+        <iframe 
+          src="https://www.google.com/maps/place/Shoshone+County,+ID/@47.500942,-115.644158,8z/data=!4m6!3m5!1s0x5360f8c1356ed99d:0xfd434a26890e6fd3!8m2!3d47.1746948!4d-115.9104676!16zL20vMG53MDY?hl=en&entry=ttu&g_ep=EgoyMDI1MDMxOS4yIKXMDSoJLDEwMjExNDUzSAFQAw%3D%3D" 
+          width="100%" 
+          height="450" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</div>
