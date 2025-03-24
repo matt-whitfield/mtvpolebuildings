@@ -5,7 +5,43 @@
   <h2 class="text-3xl font-bold text-center mb-8">Request a Quote</h2>
   <p class="text-center mb-8 text-gray-600">Fill out the form below and we'll get back to you with a custom quote for your project.</p>
   
-  <form class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+  <div id="form-messages" class="max-w-2xl mx-auto mb-4 hidden">
+    <div id="success-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative hidden" role="alert">
+      <strong class="font-bold">Success!</strong>
+      <span class="block sm:inline"> Thank you for your quote request! We've received your information and will contact you within 1-2 business days.</span>
+    </div>
+    <div id="error-message" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden" role="alert">
+      <strong class="font-bold">Error!</strong>
+      <span class="block sm:inline" id="error-text"> There was a problem submitting your form. Please try again later or contact us directly.</span>
+    </div>
+  </div>
+  
+  <!-- This hidden form is for Netlify's build-time form detection -->
+  <form name="quote-request" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <input type="tel" name="phone" />
+    <input type="text" name="buildingSize" />
+    <select name="buildingType"></select>
+    <input type="text" name="location" />
+    <textarea name="comments"></textarea>
+  </form>
+  
+  <form 
+    name="quote-request" 
+    method="POST" 
+    id="quote-form"
+    class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg"
+  >
+    <input type="hidden" name="form-name" value="quote-request" />
+    <p class="hidden">
+      <label>
+        Don't fill this out if you're human: <input name="bot-field" />
+      </label>
+    </p>
+    <input type="hidden" name="subject" value="New Quote Request from MTV Pole Buildings Website" />
+    <input type="hidden" name="recipient" value="matthwhitfield@gmail.com" />
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="form-group">
         <label for="name" class="block text-gray-700 font-medium mb-2">Name *</label>
@@ -97,6 +133,7 @@
       <button
         type="submit"
         class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200"
+        id="submit-button"
       >
         Submit Quote Request
       </button>
@@ -124,21 +161,77 @@
 </style>
 
 <script>
-  // Basic form handling
-  const form = document.querySelector('form');
+  // Form submission handling
+  const form = document.querySelector('form#quote-form');
+  const formMessages = document.getElementById('form-messages');
+  const successMessage = document.getElementById('success-message');
+  const errorMessage = document.getElementById('error-message');
+  const errorText = document.getElementById('error-text');
+  const submitButton = document.getElementById('submit-button') as HTMLButtonElement;
+  
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Get form data
-    const formData = new FormData(e.target as HTMLFormElement);
-    const data = Object.fromEntries(formData.entries());
+    // Hide any previous messages
+    formMessages?.classList.add('hidden');
+    successMessage?.classList.add('hidden');
+    errorMessage?.classList.add('hidden');
     
-    // Here you would typically send the data to your backend
-    console.log('Form submitted with data:', data);
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.innerText = 'Submitting...';
+    }
     
-    // For now, just show an alert
-    alert('Thank you for your quote request! We will contact you soon.');
-    (e.target as HTMLFormElement).reset();
+    try {
+      // Get form data
+      const formData = new FormData(e.target as HTMLFormElement);
+      
+      // Submit the form using Fetch API to work with Netlify Forms
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString()
+      });
+      
+      if (response.ok) {
+        // Show success message with smooth scroll
+        if (formMessages && successMessage) {
+          formMessages.classList.remove('hidden');
+          successMessage.classList.remove('hidden');
+          
+          // Scroll to the success message
+          formMessages.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Reset the form
+        (e.target as HTMLFormElement).reset();
+      } else {
+        throw new Error(`Server responded with status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      
+      // Show detailed error message
+      if (formMessages && errorMessage && errorText) {
+        formMessages.classList.remove('hidden');
+        errorMessage.classList.remove('hidden');
+        
+        // Provide more specific error message if available
+        if (error instanceof Error) {
+          errorText.textContent = ` ${error.message}. Please try again or contact us directly.`;
+        } else {
+          errorText.textContent = " There was a problem submitting your form. Please try again later or contact us directly.";
+        }
+        
+        // Scroll to the error message
+        formMessages.scrollIntoView({ behavior: 'smooth' });
+      }
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.innerText = 'Submit Quote Request';
+      }
+    }
   });
 
   // Basic phone number formatting
