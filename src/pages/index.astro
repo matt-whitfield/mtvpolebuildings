@@ -14,75 +14,110 @@ const serviceCards = [
     subheading: 'Custom designed and built to your specifications.'
   },
   {
-    icon: '/icons/hammer.svg', // Updated to use the hammer icon
-    heading: 'Residential Construction',
-    subheading: 'Quality homes built with attention to detail.'
+    icon: "/icons/hammer.svg",
+    heading: "Residential & Commercial Solutions",
+    subheading: "Flexible designs that adapt to your home or business requirements"
+},
+{
+    icon: "/icons/drill.svg",
+    heading: "Full-Service Upgrades",
+    subheading: "Comprehensive add-ons to maximize your space and property value"
+},
+  {
+    icon: '/icons/lock.svg', 
+    heading: 'Licensed and Insured',
+    subheading: 'So you have peace of mind the job gets done right, with the quality standards you deserve'
   },
   {
-    icon: '/icons/wrench.svg', // Updated to use the wrench icon
-    heading: 'Renovations',
-    subheading: 'Transform your existing space with our expertise.'
-  }
+    icon: '/icons/pencil.svg', 
+    heading: 'Free Estimates',
+    subheading: 'Saves you money and increases the value of your investment'
+  },
+  {
+    icon: '/icons/hourglass.svg', 
+    heading: 'Unsurpassed Expertise',
+    subheading: 'Pole building experts with a legacy of quality construction dating back over 40 years'
+  },
 ];
 ---
 <Layout>
-	<section class="hero-section relative min-h-screen h-[100vh] flex items-center">
-		<div class="absolute inset-0">
-			<img 
-				src="/images/mtvpb_4-3.jpg" 
-				alt="MTV Pole Buildings Construction" 
-				class="w-full h-full object-cover"
-			/>
-			<div class="absolute inset-0 bg-black bg-opacity-50"></div>
-		</div>
-		
-		<div class="relative z-10 flex flex-col items-center justify-center w-full text-center px-4 py-16 max-w-4xl mx-auto">
-			<h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-				Licensed Contractors Building with Integrity and Over 40 Years of Experience
-			</h1>
-			
-			<p class="text-xl md:text-2xl text-white mb-8 max-w-3xl">
-				Mountain View Pole Buildings operates out of Shoshone county in North Idaho. We're a small contracting outfit serving locally and in Western Montana.
-			</p>
-			
-			<a href="#quote-form" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-xl transition duration-300 transform hover:scale-105">
-				Request a Quote
-			</a>
-		</div>
-	</section>
+  <head>
+    <title>Mountain View Pole Buildings - Licensed Contractors in Idaho & Montana</title>
+    <meta name="description" content="Mountain View Pole Buildings specializes in custom pole buildings with over 40 years of experience. Serving North Idaho and Western Montana." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content="Mountain View Pole Buildings - Licensed Contractors" />
+    <meta property="og:description" content="Custom pole buildings designed and built with integrity. Serving North Idaho and Western Montana." />
+    <meta property="og:image" content="/images/mtvpb_4-3.jpg" />
+    <meta property="og:url" content="https://www.mtvpolebuildings.com" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mountain View Pole Buildings - Licensed Contractors" />
+    <meta name="twitter:description" content="Custom pole buildings designed and built with integrity. Serving North Idaho and Western Montana." />
+    <meta name="twitter:image" content="/images/mtvpb_4-3.jpg" />
+    <link rel="canonical" href="https://www.mtvpolebuildings.com" />
+  </head>
 
-	<!-- Services/Features Section -->
-	<section class="gradient-section-1 section-padding">
-		<div class="container mx-auto px-4">
-			<h2 class="text-3xl font-bold text-center mb-12">What We Do</h2>
-			
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-				{serviceCards.map(card => (
-					<Card 
-						icon={card.icon}
-						heading={card.heading}
-						subheading={card.subheading}
-					/>
-				))}
-			</div>
-		</div>
-	</section>
+  <!--Hero Section -->
+  <section class="hero-section relative py-20 flex items-center">
+    <div class="absolute inset-0">
+      <video autoplay loop muted class="w-full h-full object-cover">
+        <source src="/video/trussRaise-square-06-23-2023_1.mp4" type="video/mp4" />
+      </video>
+      <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    </div>
 
-	<section class="gradient-section-2 section-padding">
-		<ContentSection/>
-	</section>
+    <div class="relative z-10 flex flex-col items-center justify-center w-full text-center px-4 py-16 max-w-4xl mx-auto">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight text-animate">
+        Licensed Contractors Building with Integrity and Over 40 Years of Experience
+      </h1>
 
-	<section class="gradient-section-1 section-padding">
-		<WorkRadius />
-	</section>
-	
-	<!-- Work Gallery Section -->
-	<section class="gradient-section-2 section-padding">
-		<ImageGallery />
-	</section>
+      <p class="text-lg md:text-xl text-white mb-8 max-w-3xl animate-slide-up">
+        Mountain View Pole Buildings operates out of Shoshone county in North Idaho. We're a small contracting outfit serving locally and in Western Montana.
+      </p>
 
-	<!-- Quote Form Section -->
-	<section class="gradient-section-1 section-padding" id="quote-form">
-		<QuoteForm />
-	</section>
+      <a href="#quote-form" class="btn-primary animate-pulse" style="background-color: #304A61; color: white; transition: background-color 0.3s;">
+        Request a Quote
+      </a>
+    </div>
+  </section>
+
+  <!-- Services/Features Section -->
+  <section class="gradient-section-1 section-padding">
+    <div class="container mx-auto px-4">
+      <!-- <h2 class="text-3xl font-bold text-center mb-12">What We Do</h2>  -->
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+        {serviceCards.map(card => (
+          <Card 
+            icon={card.icon}
+            heading={card.heading}
+            subheading={card.subheading}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="gradient-section-2 section-padding">
+    <ContentSection/>
+  </section>
+
+  <section class="gradient-section-1 section-padding">
+    <WorkRadius />
+  </section>
+
+  <!-- Work Gallery Section -->
+  <section class="gradient-section-2 section-padding">
+    <ImageGallery />
+  </section>
+
+  <!-- Quote Form Section -->
+  <section class="gradient-section-1 section-padding" id="quote-form">
+    <QuoteForm />
+  </section>
 </Layout>
+
+<style>
+  .btn-primary:hover {
+    background-color: #346267;
+  }
+</style>

@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        // You can customize your brand colors here
+        primary: '#304A61',
+        hover: '#346267',
       },
     },
   },
