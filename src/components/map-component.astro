@@ -1,6 +1,12 @@
 ---
 // Frontmatter: Import Leaflet CSS and JS
 const center = [47.45960934695521, -116.24181060705783]; 
+
+interface Props {
+  mapRadius?: number; // Radius in miles
+}
+
+const { mapRadius = 50 } = Astro.props;
 ---
 
 <div id="map-container" style="height: 500px; width: 100%;"></div>
@@ -13,7 +19,7 @@ const center = [47.45960934695521, -116.24181060705783];
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
 
-<script is:inline define:vars={{ center }}>
+<script is:inline define:vars={{ center, mapRadius }}>
 // Initialize map after component mounts
 document.addEventListener('DOMContentLoaded', () => {
   const map = L.map('map-container').setView(center, 8); // Adjusted zoom level from 9 to 8
@@ -24,9 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
     maxZoom: 19,
   }).addTo(map);
 
-  // Add 50-mile radius circle (1 mile = 1609.34 meters)
+  // Add configurable radius circle (1 mile = 1609.34 meters)
   L.circle(center, {
-    radius: 50 * 1609.34,
+    radius: mapRadius * 1609.34,
     color: '#3388ff',
     fillColor: '#3388ff',
     fillOpacity: 0.2

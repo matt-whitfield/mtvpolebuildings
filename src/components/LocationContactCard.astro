@@ -1,0 +1,191 @@
+---
+import Map from './map-component.astro';
+import Card from './card.astro';
+
+// Define the props interface for the component
+interface Props {
+  title?: string;
+  subtitle?: string;
+  phone?: string;
+  email?: string;
+  address?: string;
+  quoteButtonText?: string;
+  quoteButtonUrl?: string;
+  mapRadius?: number; // Radius in miles
+  showIcons?: boolean;
+}
+
+// Destructure props with default values
+const {
+  title = "Where We Work",
+  subtitle = "Serving North Idaho and Western Montana",
+  phone = "555-123-4567",
+  email = "info@mtvpolebuildings.com",
+  address = "Shoshone County, North Idaho",
+  quoteButtonText = "Request a Quote",
+  quoteButtonUrl = "/quote",
+  mapRadius = 50,
+  showIcons = true
+} = Astro.props;
+---
+
+<section class="location-contact-section gradient-section-1 section-padding">
+  <div class="container mx-auto px-4 py-12">
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800" id="service-area">{title}</h2>
+    <p class="text-lg text-gray-600 mb-12 text-center max-w-3xl mx-auto">
+      {subtitle}
+    </p>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Map Column (takes up 2/3 on larger screens) -->
+      <div class="lg:col-span-2 rounded-lg overflow-hidden shadow-lg">
+        <div class="map-container relative z-10 h-full">
+          <div class="aspect-w-16 aspect-h-9 h-full">
+            <Map mapRadius={mapRadius} />
+          </div>
+          <div class="bg-white bg-opacity-90 text-gray-800 p-4 absolute bottom-0 left-0 right-0">
+            <p class="font-medium">We operate within a {mapRadius} mile radius of Shoshone County in North Idaho.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Info Column -->
+      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="p-6">
+          <h3 class="text-2xl font-bold mb-4 text-gray-800">Contact Us</h3>
+          
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start">
+              {showIcons && (
+                <div class="flex-shrink-0 w-6 h-6 mr-3 mt-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+              )}
+              <div>
+                <p class="font-semibold">Phone</p>
+                <a href={`tel:${phone}`} class="text-primary hover:underline">{phone}</a>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              {showIcons && (
+                <div class="flex-shrink-0 w-6 h-6 mr-3 mt-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </div>
+              )}
+              <div>
+                <p class="font-semibold">Email</p>
+                <a href={`mailto:${email}`} class="text-primary hover:underline break-words">{email}</a>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              {showIcons && (
+                <div class="flex-shrink-0 w-6 h-6 mr-3 mt-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+              )}
+              <div>
+                <p class="font-semibold">Location</p>
+                <p>{address}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8">
+            <a href={quoteButtonUrl} class="btn-primary w-full text-center block">
+              {quoteButtonText}
+            </a>
+          </div>
+          
+          <div class="mt-6 text-center text-gray-600">
+            <p class="text-sm">Licensed contractors in Idaho & Montana</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .map-container {
+    min-height: 400px;
+  }
+  
+  @media (max-width: 1024px) {
+    .map-container {
+      aspect-ratio: 16/9;
+      height: auto;
+    }
+  }
+  
+  .text-primary {
+    color: #1a5276;
+  }
+  
+  .btn-primary {
+    background-color: #1a5276;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    display: inline-block;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #2471a3;
+  }
+</style>
+
+<script>
+  // Structured data for LocalBusiness
+  document.addEventListener('DOMContentLoaded', () => {
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Mountain View Pole Buildings",
+      "image": "/images/mtvpb-svg-logo.svg",
+      "telephone": "555-123-4567",
+      "email": "info@mtvpolebuildings.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "ID",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 47.45960934695521,
+        "longitude": -116.24181060705783
+      },
+      "areaServed": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": 47.45960934695521,
+          "longitude": -116.24181060705783
+        },
+        "geoRadius": "80467" // 50 miles in meters
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "08:00",
+        "closes": "17:00"
+      }
+    };
+
+    // Add the JSON-LD to the document
+    const script = document.createElement('script');
+    script.setAttribute('type', 'application/ld+json');
+    script.textContent = JSON.stringify(jsonLd);
+    document.head.appendChild(script);
+  });
+</script>

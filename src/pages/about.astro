@@ -1,63 +1,62 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ContentSection from '../components/contentSection.astro';
+import HeroSecondary from '../components/hero-secondary.astro';
+import LocationContactCard from '../components/LocationContactCard.astro';
 ---
 <Layout>
 <!--Hero Section -->
-<div class="hero-section relative py-20 flex items-center">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-col md:flex-row items-center">
-      <!-- Text Content (Left Side) -->
-      <div class="w-full md:w-2/3 z-10 mb-8 md:mb-0 md:pr-8">
-        <div class="max-w-xl">
-          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-[#304A61] mb-6 leading-tight text-animate">
-            Building Trust, Crafting Quality
-          </h1>
-          <p class="text-lg md:text-xl text-gray-700 mb-8 animate-slide-up">
-            At Mountain View Pole Buildings, we simplify construction, ensuring your project is guided by seasoned experts. Trust your vision to Donnie and Zack for a seamless, quality experience.
-
-
-          </p>
-          
-        </div>
-      </div>
-      
-      <!-- Image Container (Right Side) -->
-      <div class="w-full md:w-1/2 relative">
-        <div class="rounded-lg overflow-hidden shadow-xl">
-          <img 
-            src="/images/workGallery/mtvpb old photos-7.webp" 
-            alt="Mountain View Pole Buildings construction" 
-            class="w-full h-full object-cover scale-125 transform origin-center hover:scale-115 transition-transform duration-1000"
-          />
-          <div class="absolute inset-0 bg-[#304A61]/10"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="container mx-auto px-4 text-center py-12">
-    <h1 class="text-3xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-6 leading-tight text-animate">Meet Your Expert Contractors</h1>
-</div>
-
-<!-- Content Section with Custom Props -->
-<ContentSection 
-  title="Zack Whitfield"
-  description1="Zack's journey into the world of pole building construction began under the wing of his stepdad when he was just 15. What started as part-time summer work swiftly evolved into a lifelong passion. Eager to spread his wings, Zack ventured into city life at 18 but found himself drawn back to his roots, returning home to establish a lasting presence. Zack committed to working full-time alongside Donnie 10 years ago, absorbing invaluable experience and steadily assuming greater responsibilities within the business. Today, as the driving force behind our day-to-day operations, Zack seamlessly blends the values of fair pricing, dedicated work ethic, and an unwavering commitment to delivering unparalleled quality – principles instilled by both him and Donnie."
-  description2=""
-  imageSrc="/images/zack-whitfield.webp"
-  imageAlt="Zack Whitfield, Mountain View Pole Buildings"
+<HeroSecondary 
+  title="Building Trust, Crafting Quality"
+  description="At Mountain View Pole Buildings, we simplify construction, ensuring your project is guided by seasoned experts. Trust your vision to Donnie and Zack for a seamless, quality experience."
+  imageSrc="/images/workGallery/mtvpb old photos-7.webp"
+  imageAlt="Mountain View Pole Buildings construction"
 />
 
-<ContentSection 
-title="Donnie Smathers"  
-description1="Donnie is the founder of Mountain View Pole Buildings. His journey in construction began at the age of 13, and by 18, he ventured into entrepreneurship, laying the foundation for a career that spans almost five decades. Having crafted diverse post frame buildings across states like Arizona, Florida, Colorado, Washington, Idaho, and Montana, Donnie's expertise shines through in every project. Almost 50 years later, his passion for the craft remains unwavering as he continues to show up for work, ensuring each project is seen through from start to finish. Mountain View Pole Buildings is a testament to Donnie's love for his work, commitment to top-notch quality, and his genuine passion for working with people."
-  description2=""
-  imageSrc="/images/donnie-smathers-arizona.webp"
-  imageHeight='full'
-  imageAlt="Donnie Smathers, founder of Mountain View Pole Buildings"
-  imagePosition="left"
+<!-- Meet Your Contractors Section  -->
+<section class="bg-gray-50 py-16">
+  <div class="container mx-auto px-4">
+    <h1 class="text-3xl md:text-4xl lg:text-4xl font-bold text-gray-800 mb-8 text-center">Meet Your Expert Contractors</h1>
+    <p class="text-lg text-gray-600 mb-12 text-center max-w-3xl mx-auto">
+      With decades of combined experience in pole building construction, our licensed contractors bring quality craftsmanship and professional integrity to every project.
+    </p>
+
+    <div class="bg-white rounded-xl shadow-lg p-8 md:p-12 space-y-16">
+      <!-- Content Section with Custom Props -->
+      <ContentSection 
+        title="Zack Whitfield"
+        description1="Zack's journey into the world of pole building construction began under the wing of his stepdad when he was just 15. What started as part-time summer work swiftly evolved into a lifelong passion. Eager to spread his wings, Zack ventured into city life at 18 but found himself drawn back to his roots, returning home to establish a lasting presence. Zack committed to working full-time alongside Donnie 10 years ago, absorbing invaluable experience and steadily assuming greater responsibilities within the business. Today, as the driving force behind our day-to-day operations, Zack seamlessly blends the values of fair pricing, dedicated work ethic, and an unwavering commitment to delivering unparalleled quality – principles instilled by both him and Donnie."
+        description2=""
+        imageSrc="/images/zack-whitfield.webp"
+        imageAlt="Zack Whitfield, Mountain View Pole Buildings"
+        customClass="no-section-bg"
+        imageRounded="xl"
+      />
+
+      <div class="border-t border-gray-200 pt-16"></div>
+
+      <ContentSection 
+        title="Donnie Smathers"  
+        description1="Donnie is the founder of Mountain View Pole Buildings. His journey in construction began at the age of 13, and by 18, he ventured into entrepreneurship, laying the foundation for a career that spans almost five decades. Having crafted diverse post frame buildings across states like Arizona, Florida, Colorado, Washington, Idaho, and Montana, Donnie's expertise shines through in every project. Almost 50 years later, his passion for the craft remains unwavering as he continues to show up for work, ensuring each project is seen through from start to finish. Mountain View Pole Buildings is a testament to Donnie's love for his work, commitment to top-notch quality, and his genuine passion for working with people."
+        description2=""
+        imageSrc="/images/donnie-smathers-arizona.webp"
+        imageHeight='full'
+        imageAlt="Donnie Smathers, founder of Mountain View Pole Buildings"
+        imagePosition="left"
+        customClass="no-section-bg"
+        imageRounded="xl"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- Service Area and Contact Information -->
+<LocationContactCard 
+  title="Our Service Area" 
+  subtitle="Mountain View Pole Buildings proudly serves clients throughout North Idaho and Western Montana"
+  mapRadius={50}
+  quoteButtonUrl="/quote"
+  quoteButtonText="Request Your Free Quote"
 />
 
 </Layout>

@@ -1,0 +1,157 @@
+---
+// Define the props interface
+interface Props {
+  title: string;
+  description: string;
+  imageSrc: string;
+  imageAlt: string;
+  showButton?: boolean;
+  buttonText?: string;
+  buttonUrl?: string;
+}
+
+// Destructure the props with default values
+const { 
+  title = "Building Trust, Crafting Quality",
+  description = "At Mountain View Pole Buildings, we simplify construction, ensuring your project is guided by seasoned experts.",
+  imageSrc = "/images/workGallery/mtvpb old photos-7.webp",
+  imageAlt = "Mountain View Pole Buildings construction",
+  showButton = false,
+  buttonText = "Learn More",
+  buttonUrl = "#"
+} = Astro.props;
+---
+
+<div class="hero-secondary">
+  <div class="absolute inset-0">
+    <img 
+      src={imageSrc} 
+      alt={imageAlt}
+      class="h-full w-full object-cover scroll-animate fade-in"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-[#304A61]/90 from-20% to-[#304A61]/40 md:bg-gradient-to-r md:from-[#304A61]/80 md:from-10% md:via-[#304A61]/60 md:via-50% md:to-[#304A61]/40"></div>
+  </div>
+  
+  <div class="container relative mx-auto px-4 py-20 z-10">
+    <div class="max-w-2xl mx-auto md:mx-0 md:ml-8 lg:ml-16 text-center md:text-left">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight shadow-text scroll-animate slide-right">
+        {title}
+      </h1>
+      <p class="text-lg md:text-xl text-white mb-8 shadow-text scroll-animate slide-up">
+        {description}
+      </p>
+      {showButton && (
+        <a href={buttonUrl} class="btn-secondary scroll-animate fade-in-delay">
+          {buttonText}
+        </a>
+      )}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Set up Intersection Observer to detect when elements enter the viewport
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollAnimateElements = document.querySelectorAll('.scroll-animate');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          // Unobserve after animation to improve performance
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,  // Trigger when 10% of the element is visible
+      rootMargin: '0px 0px -50px 0px'  // Slight offset to trigger before fully in view
+    });
+    
+    scrollAnimateElements.forEach(element => {
+      // Reset initial state
+      element.classList.remove('animate');
+      observer.observe(element);
+    });
+  });
+</script>
+
+<style>
+  .hero-secondary {
+    min-height: 450px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .shadow-text {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Base style for scroll animation elements - initially hidden */
+  .scroll-animate {
+    opacity: 0;
+    transition: all 0.8s ease-out;
+  }
+  
+  /* Animation classes */
+  .scroll-animate.slide-up {
+    transform: translateY(30px);
+  }
+  
+  .scroll-animate.slide-right {
+    transform: translateX(-30px);
+  }
+  
+  .scroll-animate.fade-in {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  
+  .scroll-animate.fade-in-delay {
+    opacity: 0;
+    transition-delay: 0.2s;
+  }
+  
+  /* Active state - applied when element enters viewport */
+  .scroll-animate.animate {
+    opacity: 1;
+    transform: translate(0) scale(1);
+  }
+  
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.8s ease-out forwards;
+  }
+  
+  .btn-secondary {
+    background-color: #1a5276;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    display: inline-block;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: 2px solid white;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #2471a3;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-secondary {
+      text-align: center;
+    }
+  }
+</style>

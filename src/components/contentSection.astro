@@ -14,6 +14,8 @@ interface Props {
   imageScale?: string; // Controls image scaling
   imageHeight?: string; // Controls image height
   imageObjectFit?: string; // Controls object-fit property
+  imageContainerHeight?: string; // Controls fixed height of the image container
+  customClass?: string; // Allows custom classes for styling sections
 }
 
 const { 
@@ -30,7 +32,9 @@ const {
   imageShadow = "lg",
   imageScale = "100",
   imageHeight = "auto",
-  imageObjectFit = "cover"
+  imageObjectFit = "cover",
+  imageContainerHeight = "400px", // Default fixed height for the image container
+  customClass = ""
 } = Astro.props;
 
 // Map imageWidth string to Tailwind classes
@@ -76,23 +80,25 @@ const roundedClass = `rounded-${imageRounded}`;
 const shadowClass = `shadow-${imageShadow}`;
 ---
 
-<section class="gradient-section-1 section-padding">
-  <div class="container mx-auto px-4">
+<section class={customClass === "no-section-bg" ? "py-0" : "gradient-section-1 section-padding"}>
+  <div class={customClass === "no-section-bg" ? "" : "container mx-auto px-4"}>
     <div class={`flex flex-col ${flexOrderClass} gap-8 items-center`}>
       <div class={`w-full ${imageWidthClass}`}>
-        <img 
-          src={imageSrc} 
-          alt={imageAlt} 
-          class={`w-full h-${imageHeight} object-${imageObjectFit} ${roundedClass} ${shadowClass} ${imageScale !== '100' ? `scale-${imageScale} transform origin-center` : ''}`}
-        />
+        <div class={`image-container ${roundedClass} ${shadowClass} overflow-hidden scroll-animate fade-in`} style={`height: ${imageContainerHeight};`}>
+          <img 
+            src={imageSrc} 
+            alt={imageAlt} 
+            class={`w-full h-full object-${imageObjectFit} ${imageScale !== '100' ? `scale-${imageScale} transform origin-center` : ''}`}
+          />
+        </div>
       </div>
       <div class={`w-full ${textWidthClass}`}>
-        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{title}</h1>
-        <p class="text-lg text-gray-600 leading-relaxed">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800 scroll-animate slide-right">{title}</h1>
+        <p class="text-lg text-gray-600 leading-relaxed scroll-animate slide-up">
           {description1}
         </p>
         {description2 && 
-          <p class="text-lg text-gray-600 leading-relaxed mt-4">
+          <p class="text-lg text-gray-600 leading-relaxed mt-4 scroll-animate slide-up" style="transition-delay: 0.1s;">
             {description2}
           </p>
         }
@@ -100,3 +106,70 @@ const shadowClass = `shadow-${imageShadow}`;
     </div>
   </div>
 </section>
+
+<script>
+  // Set up Intersection Observer to detect when elements enter the viewport
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollAnimateElements = document.querySelectorAll('.scroll-animate');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          // Unobserve after animation to improve performance
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,  // Trigger when 10% of the element is visible
+      rootMargin: '0px 0px -50px 0px'  // Slight offset to trigger before fully in view
+    });
+    
+    scrollAnimateElements.forEach(element => {
+      // Reset initial state
+      element.classList.remove('animate');
+      observer.observe(element);
+    });
+  });
+</script>
+<style>
+  /* Base style for scroll animation elements - initially hidden */
+  .scroll-animate {
+    opacity: 0;
+    transition: all 0.8s ease-out;
+  }
+  
+  /* Animation classes */
+  .scroll-animate.slide-up {
+    transform: translateY(30px);
+  }
+  
+  .scroll-animate.slide-right {
+    transform: translateX(-30px);
+  }
+  
+  .scroll-animate.fade-in {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  
+  /* Active state - applied when element enters viewport */
+  .scroll-animate.animate {
+    opacity: 1;
+    transform: translate(0) scale(1);
+  }
+  /* Fixed image container styles */
+  .image-container {
+    position: relative;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+  }
+  .image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
