@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/card.astro';
 import ContentSection from '../components/contentSection.astro';
-import WorkRadius from '../components/work-radius.astro';
+import LocationContactCard from '../components/LocationContactCard.astro';
 import ImageGallery from '../components/ImageGallery.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 
@@ -101,7 +101,15 @@ const serviceCards = [
   
 
   
-    <WorkRadius />
+    <LocationContactCard 
+  title="Our Service Area" 
+  subtitle="Mountain View Pole Buildings proudly serves clients throughout North Idaho and Western Montana"
+  mapRadius={50}
+  phone="208-659-6146"
+  email="mountainviewpolebuildings@gmail.com"
+  quoteButtonUrl="/quote"
+  quoteButtonText="Request Your Free Quote"
+/>
   
 
   <!-- Work Gallery Section -->
