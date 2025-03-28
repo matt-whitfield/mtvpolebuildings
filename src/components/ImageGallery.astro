@@ -30,9 +30,9 @@ const galleryImages = [
 
 <div class="gallery-section">
   <div class="container mx-auto px-4 py-12">
-    <h2 class="text-3xl font-bold text-center mb-8 text-white">Our Work</h2>
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Our Work</h2>
     
-    <div class="image-gallery grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+    <div class="image-gallery grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
       {galleryImages.map((image, index) => (
         <div class="polaroid-wrapper" style={`--rotation: ${Math.random() * 6 - 3}deg`}>
           <div class="gallery-item polaroid" data-index={index}>
@@ -66,20 +66,7 @@ const galleryImages = [
 
 <style>
   .gallery-section {
-    background-color: #D4B08C; /* Changed from #8B4513 to a lighter, warmer cork color */
-    background-image: 
-      repeating-linear-gradient(45deg, 
-        rgba(0,0,0,0.05) 0px, /* Reduced opacity from 0.1 to 0.05 for softer texture */
-        rgba(0,0,0,0.05) 2px,
-        transparent 2px, 
-        transparent 4px
-      ),
-      repeating-linear-gradient(-45deg, 
-        rgba(0,0,0,0.05) 0px, /* Reduced opacity from 0.1 to 0.05 for softer texture */
-        rgba(0,0,0,0.05) 2px,
-        transparent 2px, 
-        transparent 4px
-      );
+    background-image: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
     padding: 2rem 0;
   }
 

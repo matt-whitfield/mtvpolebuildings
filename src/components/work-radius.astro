@@ -2,21 +2,31 @@
 // Work Radius component showing service area and embedded map
 import Map from './map-component.astro';
 ---
-<div class="container mx-auto px-4">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-    <!-- Text Column -->
-    <div class="text-content">
-      <h2 class="text-3xl font-bold mb-4">Work Radius</h2>
-      <p class="text-lg mb-6">
-        We operate within a 50 mile radius of Shoshone County in North Idaho.
-      </p>
-    </div>
-    
-    <!-- Map Column -->
-    <div class="map-container">
-      <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
-        <Map/>
+<section class="gradient-section-1 section-padding">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <!-- Text Column -->
+      <div class="text-content">
+        <h2 class="text-3xl font-bold mb-4">Work Radius</h2>
+        <p class="text-lg mb-6">
+          We operate within a 50 mile radius of Shoshone County in North Idaho.
+        </p>
+      </div>
+      
+      <!-- Map Column -->
+      <div class="map-container relative z-10">
+        <div class="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
+          <Map/>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
+
+<style>
+  /* Ensure map's iframe has a lower z-index than the navbar */
+  :global(.map-container iframe) {
+    z-index: 10;
+    position: relative;
+  }
+</style>

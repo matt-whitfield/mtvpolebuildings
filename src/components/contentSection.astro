@@ -1,28 +1,102 @@
 ---
 interface Props {
   reverse?: boolean;
+  title?: string;
+  description1?: string;
+  description2?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  // New props for image customization
+  imageWidth?: '1/2' | '1/3' | '2/3' | '1/4' | '3/4' | 'full'; // Specific allowed values
+  imagePosition?: 'left' | 'right' | 'center'; // Controls image position
+  imageRounded?: string; // Controls image border radius
+  imageShadow?: string; // Controls shadow intensity
+  imageScale?: string; // Controls image scaling
+  imageHeight?: string; // Controls image height
+  imageObjectFit?: string; // Controls object-fit property
 }
 
-const { reverse = false } = Astro.props;
+const { 
+  reverse = false,
+  title = "Family Owned, Locally Operated",
+  description1 = "As a homeowner, it can be hard to know where to start, or who to trust. When you work with Mountain View Pole Buildings, you're working with Donnie Smathers and Zack Whitfield, licensed contractors with a reputation of quality craftsmanship, professional integrity, and a strong family bond.",
+  description2 = "We operate in the community where we live. Our reputation and livelihood depend on our ability to provide the highest quality service. Learn more about who we are and what we build.",
+  imageSrc = "/images/family-owned-1500x750.jpg",
+  imageAlt = "Family Owned Business",
+  // Default values for new props
+  imageWidth = "1/2",
+  imagePosition = reverse ? 'left' : 'right',
+  imageRounded = "lg",
+  imageShadow = "lg",
+  imageScale = "100",
+  imageHeight = "auto",
+  imageObjectFit = "cover"
+} = Astro.props;
+
+// Map imageWidth string to Tailwind classes
+const imageWidthClasses: Record<string, string> = {
+  '1/2': 'md:w-1/2',
+  '1/3': 'md:w-1/3',
+  '2/3': 'md:w-2/3',
+  '1/4': 'md:w-1/4',
+  '3/4': 'md:w-3/4',
+  'full': 'md:w-full',
+};
+
+// Calculate text column width based on image width
+let textWidthClass = 'md:w-1/2'; // Default value
+
+if (imageWidth === 'full') {
+  textWidthClass = 'md:w-1/2';
+} else if (imageWidth === '1/2') {
+  textWidthClass = 'md:w-1/2';
+} else if (imageWidth === '1/3') {
+  textWidthClass = 'md:w-2/3';
+} else if (imageWidth === '2/3') {
+  textWidthClass = 'md:w-1/3';
+} else if (imageWidth === '1/4') {
+  textWidthClass = 'md:w-3/4';
+} else if (imageWidth === '3/4') {
+  textWidthClass = 'md:w-1/4';
+}
+
+// Determine flex order based on imagePosition
+let flexOrderClass = '';
+if (imagePosition === 'left') {
+  flexOrderClass = 'md:flex-row';
+} else if (imagePosition === 'right') {
+  flexOrderClass = 'md:flex-row-reverse';
+} else {
+  flexOrderClass = 'md:flex-col';
+}
+
+// Get image width class safely with fallback
+const imageWidthClass = imageWidthClasses[imageWidth] || 'md:w-1/2';
+const roundedClass = `rounded-${imageRounded}`;
+const shadowClass = `shadow-${imageShadow}`;
 ---
 
-<section class="py-16 px-4 md:px-8">
-  <div class={`container mx-auto flex flex-col ${reverse ? 'md:flex-row-reverse' : 'md:flex-row'} gap-8 items-center`}>
-    <div class="w-full md:w-1/2">
-      <img 
-        src="/images/family-owned-1500x750.jpg" 
-        alt="Family Owned Business" 
-        class="w-full h-auto rounded-lg shadow-lg"
-      />
-    </div>
-    <div class="w-full md:w-1/2">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">Family Owned, Locally Operated</h1>
-      <p class="text-lg text-gray-600 leading-relaxed">
-        As a homeowner, it can be hard to know where to start, or who to trust. When you work with Mountain View Pole Buildings, you're working with Donnie Smathers and Zack Whitfield, licensed contractors with a reputation of quality craftsmanship, professional integrity, and a strong family bond.
-      </p>
-      <p class="text-lg text-gray-600 leading-relaxed mt-4">
-        We operate in the community where we live. Our reputation and livelihood depend on our ability to provide the highest quality service. Learn more about who we are and what we build.
-      </p>
+<section class="gradient-section-1 section-padding">
+  <div class="container mx-auto px-4">
+    <div class={`flex flex-col ${flexOrderClass} gap-8 items-center`}>
+      <div class={`w-full ${imageWidthClass}`}>
+        <img 
+          src={imageSrc} 
+          alt={imageAlt} 
+          class={`w-full h-${imageHeight} object-${imageObjectFit} ${roundedClass} ${shadowClass} ${imageScale !== '100' ? `scale-${imageScale} transform origin-center` : ''}`}
+        />
+      </div>
+      <div class={`w-full ${textWidthClass}`}>
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{title}</h1>
+        <p class="text-lg text-gray-600 leading-relaxed">
+          {description1}
+        </p>
+        {description2 && 
+          <p class="text-lg text-gray-600 leading-relaxed mt-4">
+            {description2}
+          </p>
+        }
+      </div>
     </div>
   </div>
 </section>

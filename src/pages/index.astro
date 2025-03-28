@@ -57,28 +57,27 @@ const serviceCards = [
   </head>
 
   <!--Hero Section -->
-  <section class="hero-section relative py-20 flex items-center">
+  <div class="hero-section relative py-20 flex items-center">
     <div class="absolute inset-0">
       <video autoplay loop muted playsinline class="w-full h-full object-cover">
         <source src="/video/trussRaise-square-06-23-2023_1.mp4" type="video/mp4" />
       </video>
-      <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#304A61]/90 from-20% to-[#304A61]/30 md:bg-gradient-to-r md:from-[#304A61]/90 md:from-20% md:via-[#304A61]/50 md:via-50% md:to-transparent"></div>
     </div>
-
-    <div class="relative z-10 flex flex-col items-center justify-center w-full text-center px-4 py-16 max-w-4xl mx-auto">
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight text-animate">
-        Licensed Contractors Building with Integrity and Over 40 Years of Experience
-      </h1>
-
-      <p class="text-lg md:text-xl text-white mb-8 max-w-3xl animate-slide-up">
-        Mountain View Pole Buildings operates out of Shoshone county in North Idaho. We're a small contracting outfit serving locally and in Western Montana.
-      </p>
-
-      <a href="#quote-form" class="btn-primary animate-pulse" style="background-color: #304A61; color: white; transition: background-color 0.3s;">
-        Request a Quote
-      </a>
+    <div class="relative z-10 flex flex-col items-start justify-end w-full text-left px-4 py-16 max-w-4xl mx-auto lg:ml-16 h-full mt-auto pb-8 md:mt-0 md:pb-0 md:justify-center">
+      <div class="max-w-2xl mt-auto md:mt-0">
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight text-animate">
+          Licensed Contractors Building with Integrity and Over 40 Years of Experience
+        </h1>
+        <p class="text-lg md:text-xl text-white mb-8 animate-slide-up">
+          Mountain View Pole Buildings operates out of Shoshone county in North Idaho. We're a small contracting outfit serving locally and in Western Montana.
+        </p>
+        <a href="#quote-form" class="btn-primary">
+          Request a Quote
+        </a>
+      </div>
     </div>
-  </section>
+  </div>
 
   <!-- Services/Features Section -->
   <section class="gradient-section-1 section-padding">
@@ -97,18 +96,18 @@ const serviceCards = [
     </div>
   </section>
 
-  <section class="gradient-section-2 section-padding">
+  
     <ContentSection/>
-  </section>
+  
 
-  <section class="gradient-section-1 section-padding">
+  
     <WorkRadius />
-  </section>
+  
 
   <!-- Work Gallery Section -->
-  <section class="gradient-section-2 section-padding">
+  
     <ImageGallery />
-  </section>
+  
 
   <!-- Quote Form Section -->
   <section class="gradient-section-1 section-padding" id="quote-form">
@@ -117,7 +116,18 @@ const serviceCards = [
 </Layout>
 
 <style>
+  .btn-primary {
+    background-color: #1a5276; /* Deeper blue that conveys trust and reliability */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    display: inline-block;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
   .btn-primary:hover {
-    background-color: #346267;
+    background-color: #2471a3; /* Slightly lighter blue on hover for feedback */
   }
 </style>
