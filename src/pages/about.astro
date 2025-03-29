@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import ContentSection from '../components/contentSection.astro';
 import HeroSecondary from '../components/hero-secondary.astro';
 import LocationContactCard from '../components/LocationContactCard.astro';
+import WorkGallery from '../components/WorkGallery.astro';
 ---
 <Layout>
 <!--Hero Section -->
@@ -49,6 +50,14 @@ import LocationContactCard from '../components/LocationContactCard.astro';
     </div>
   </div>
 </section>
+
+<!-- Work Gallery Section -->
+<WorkGallery
+  title="Pole Building Projects Showcase"
+  subtitle="Explore our portfolio of durable, high-quality pole barns, shops, and garages built throughout North Idaho and Western Montana"
+  buttonText="View Our Full Portfolio"
+  buttonUrl="/work"
+/>
 
 <!-- Service Area and Contact Information -->
 <LocationContactCard 

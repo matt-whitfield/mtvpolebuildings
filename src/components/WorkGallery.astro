@@ -1,0 +1,294 @@
+---
+// Define the props interface for the component
+interface Props {
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+  buttonUrl?: string;
+  images?: { src: string; alt: string }[];
+}
+
+// Destructure the props with default values
+const {
+  title = "Our Work",
+  subtitle = "Take a look at some of our recent projects",
+  buttonText = "View All Work",
+  buttonUrl = "/work",
+  images = [
+    {
+      src: '/images/workGallery/mtvpb old photos-10.webp',
+      alt: 'Pole building construction project'
+    },
+    {
+      src: '/images/workGallery/mtvpb old photos-2.webp',
+      alt: 'Custom pole building'
+    },
+    {
+      src: '/images/workGallery/mtvpb old photos-7.webp',
+      alt: 'Pole building in progress'
+    },
+    {
+      src: '/images/workGallery/mtvpb_9-4.webp',
+      alt: 'Completed pole building'
+    },
+    {
+      src: '/images/workGallery/mtvpb_9-7.webp',
+      alt: 'Interior of pole building'
+    },
+    {
+      src: '/images/workGallery/mtvpb_9-8.webp',
+      alt: 'Exterior of custom pole building'
+    }
+  ]
+} = Astro.props;
+---
+
+<section class="work-gallery py-16 gradient-section-1 section-padding">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 scroll-animate slide-right">{title}</h2>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto scroll-animate slide-up">{subtitle}</p>
+    </div>
+
+    <div class="gallery-container relative scroll-animate fade-in">
+      <div class="gallery-scroll-area flex space-x-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
+        {images.map((image, index) => (
+          <div class="flex-shrink-0 w-80 h-64 snap-center gallery-item" style={`--delay: ${index * 100}ms`}>
+            <div class="h-full w-full overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-500">
+              <img 
+                src={image.src} 
+                alt={image.alt} 
+                class="w-full h-full object-cover transition-all duration-500 transform hover:scale-110"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Gallery navigation indicators -->
+    <div class="flex justify-center items-center mt-6 mb-8">
+      <button class="gallery-dot-nav prev mr-6 text-gray-500 hover:text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+      
+      <div class="gallery-dots flex space-x-3">
+        {images.map((_, index) => (
+          <button 
+            class="gallery-dot w-3.5 h-3.5 rounded-full bg-gray-300 transition-all duration-300 hover:bg-primary" 
+            data-index={index}
+            aria-label={`View image ${index + 1}`}
+          ></button>
+        ))}
+      </div>
+      
+      <button class="gallery-dot-nav next ml-6 text-gray-500 hover:text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="text-center mt-4 scroll-animate fade-in-delay">
+      <a href={buttonUrl} class="btn-primary inline-block">
+        {buttonText}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+  
+  /* Gallery dot indicator styles */
+  .gallery-dot.active {
+    background-color: #1a5276;
+    width: 1.25rem;
+  }
+  
+  .gallery-dot-nav {
+    transition: all 0.3s ease;
+  }
+  
+  .gallery-dot-nav:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Gallery item hover effect */
+  .gallery-item {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .gallery-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Custom styling for the primary button to match site theme */
+  .btn-primary {
+    background-color: #1a5276;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    display: inline-block;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #2471a3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Animation styles based on contentSection.astro */
+  .scroll-animate {
+    opacity: 0;
+    transition: all 0.8s ease-out;
+  }
+  
+  /* Animation classes */
+  .scroll-animate.slide-up {
+    transform: translateY(30px);
+  }
+  
+  .scroll-animate.slide-right {
+    transform: translateX(-30px);
+  }
+  
+  .scroll-animate.fade-in {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  
+  .scroll-animate.fade-in-delay {
+    opacity: 0;
+    transition-delay: 0.2s;
+  }
+  
+  .scroll-animate.animate {
+    opacity: 1;
+    transform: translate(0) scale(1);
+  }
+  
+  /* Theme color for consistent styling */
+  .text-primary {
+    color: #1a5276;
+  }
+  
+  .hover\:text-primary:hover {
+    color: #1a5276;
+  }
+  
+  .bg-primary {
+    background-color: #1a5276;
+  }
+  
+  .hover\:bg-primary:hover {
+    background-color: #1a5276;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Gallery scroll functionality
+  const scrollArea = document.querySelector('.gallery-scroll-area');
+  const galleryDots = document.querySelectorAll('.gallery-dot');
+  const prevDotNav = document.querySelector('.gallery-dot-nav.prev');
+  const nextDotNav = document.querySelector('.gallery-dot-nav.next');
+  
+  // Animation setup using Intersection Observer
+  const scrollAnimateElements = document.querySelectorAll('.scroll-animate');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+        // Unobserve after animation to improve performance
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,  // Trigger when 10% of the element is visible
+    rootMargin: '0px 0px -50px 0px'  // Slight offset to trigger before fully in view
+  });
+  
+  scrollAnimateElements.forEach(element => {
+    // Reset initial state
+    element.classList.remove('animate');
+    observer.observe(element);
+  });
+  
+  if (scrollArea && galleryDots.length > 0) {
+    let currentIndex = 0;
+    const itemWidth = 320; // Width of gallery item plus margin
+    
+    // Function to update active dot indicator
+    const updateActiveDot = (index: number): void => {
+      galleryDots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    };
+    
+    // Set first dot as active initially
+    updateActiveDot(0);
+    
+    // Scroll to specific item when clicking on a dot
+    galleryDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentIndex = index;
+        updateActiveDot(currentIndex);
+        scrollArea.scrollTo({
+          left: itemWidth * currentIndex,
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    // Prev/Next button functionality for the dots navigation
+    if (prevDotNav && nextDotNav) {
+      prevDotNav.addEventListener('click', () => {
+        currentIndex = Math.max(0, currentIndex - 1);
+        updateActiveDot(currentIndex);
+        scrollArea.scrollTo({
+          left: itemWidth * currentIndex,
+          behavior: 'smooth'
+        });
+      });
+      
+      nextDotNav.addEventListener('click', () => {
+        currentIndex = Math.min(galleryDots.length - 1, currentIndex + 1);
+        updateActiveDot(currentIndex);
+        scrollArea.scrollTo({
+          left: itemWidth * currentIndex,
+          behavior: 'smooth'
+        });
+      });
+    }
+    
+    // Update active dot based on scroll position
+    scrollArea.addEventListener('scroll', () => {
+      const scrollPosition = scrollArea.scrollLeft;
+      const index = Math.round(scrollPosition / itemWidth);
+      if (index !== currentIndex && index >= 0 && index < galleryDots.length) {
+        currentIndex = index;
+        updateActiveDot(currentIndex);
+      }
+    });
+  }
+});
+</script>
