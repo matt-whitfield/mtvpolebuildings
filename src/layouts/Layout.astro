@@ -5,9 +5,35 @@ import Footer from '../components/footer.astro';
 
 interface Props {
 	title?: string;
+	description?: string;
+	image?: string;
+	canonicalURL?: string;
+	ogType?: string;
+	twitterCard?: string;
+	keywords?: string;
 }
 
-const { title = "MTV Pole Buildings" } = Astro.props;
+const { 
+	title = "MTV Pole Buildings",
+	description = "Mountain View Pole Buildings specializes in custom pole buildings with over 40 years of experience. Serving North Idaho and Western Montana.",
+	image = "/images/mtvpb_4-3.jpg",
+	canonicalURL = Astro.url.href,
+	ogType = "website",
+	twitterCard = "summary_large_image",
+	keywords = "pole buildings, pole barns, construction, custom buildings, Idaho, Montana"
+} = Astro.props;
+
+// Create the meta description - keep it under 160 characters for SEO
+const metaDescription = description.length > 160 ? description.substring(0, 157) + '...' : description;
+
+// Format the canonical URL correctly
+const canonicalUrl = new URL(canonicalURL, Astro.site || Astro.url.origin).href;
+
+// Get the absolute image URL
+const imageUrl = new URL(image, Astro.site || Astro.url.origin).href;
+
+// Generate a formatted page title with site name
+const formattedTitle = title === "MTV Pole Buildings" ? title : `${title} | MTV Pole Buildings`;
 ---
 
 <!doctype html>
@@ -17,9 +43,36 @@ const { title = "MTV Pole Buildings" } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		
+		<!-- Primary Meta Tags -->
+		<title>{formattedTitle}</title>
+		<meta name="title" content={formattedTitle} />
+		<meta name="description" content={metaDescription} />
+		<meta name="keywords" content={keywords} />
 		<meta name="format-detection" content="telephone=no" />
-		<meta name="robots" content="noindex, noarchive" />
+		
+		<!-- Canonical URL -->
+		<link rel="canonical" href={canonicalUrl} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={ogType} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:title" content={formattedTitle} />
+		<meta property="og:description" content={metaDescription} />
+		<meta property="og:image" content={imageUrl} />
+		
+		<!-- Twitter -->
+		<meta property="twitter:card" content={twitterCard} />
+		<meta property="twitter:url" content={canonicalUrl} />
+		<meta property="twitter:title" content={formattedTitle} />
+		<meta property="twitter:description" content={metaDescription} />
+		<meta property="twitter:image" content={imageUrl} />
+		
+		<!-- Robots (assuming we'll enable indexing in production) -->
+		<meta name="robots" content="index, follow" />
+		
+		<!-- Additional head content from individual pages -->
+		<slot name="head" />
 	</head>
 	<body>
 		<NavBar />
@@ -34,7 +87,7 @@ const { title = "MTV Pole Buildings" } = Astro.props;
 	// Smooth scrolling for all anchor links
 	document.addEventListener('DOMContentLoaded', () => {
 		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-			anchor.addEventListener('click', function (e) {
+			anchor.addEventListener('click', function(this: HTMLAnchorElement, e) {
 				e.preventDefault();
 				
 				const targetId = this.getAttribute('href');
@@ -43,13 +96,14 @@ const { title = "MTV Pole Buildings" } = Astro.props;
 				const targetElement = document.querySelector(targetId);
 				if (!targetElement) return;
 				
+				const htmlElement = targetElement as HTMLElement;
 				window.scrollTo({
-					top: targetElement.offsetTop - 100, // Offset to account for fixed header
+					top: htmlElement.offsetTop - 100, // Offset to account for fixed header
 					behavior: 'smooth'
 				});
 				
 				// Update URL hash without jumping
-				history.pushState(null, null, targetId);
+				history.pushState('', '', targetId);
 			});
 		});
 	});
