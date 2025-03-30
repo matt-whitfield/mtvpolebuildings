@@ -12,7 +12,7 @@ interface Props {
 const {
   title = "Our Work",
   subtitle = "Take a look at some of our recent projects",
-  buttonText = "View All Work",
+  buttonText = "More Work",
   buttonUrl = "/work",
   images = [
     {
@@ -54,7 +54,7 @@ const {
       <div class="gallery-scroll-area flex space-x-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
         {images.map((image, index) => (
           <div class="flex-shrink-0 w-80 h-64 snap-center gallery-item" style={`--delay: ${index * 100}ms`}>
-            <div class="h-full w-full overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-500">
+            <div class="h-full w-full overflow-hidden rounded shadow-md hover:shadow-xl transition-all duration-500">
               <img 
                 src={image.src} 
                 alt={image.alt} 
@@ -138,7 +138,7 @@ const {
     background-color: #1a5276;
     color: white;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.25rem;
+    border-radius: 0.125rem;
     font-weight: 600;
     display: inline-block;
     text-decoration: none;

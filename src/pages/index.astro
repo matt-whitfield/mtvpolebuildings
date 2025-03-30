@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Card from '../components/card.astro';
 import ContentSection from '../components/contentSection.astro';
 import LocationContactCard from '../components/LocationContactCard.astro';
-import ImageGallery from '../components/ImageGallery.astro';
+import WorkGallery from '../components/WorkGallery.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 
 // Update the serviceCards array to use the icons from the public/icons folder
@@ -107,14 +107,19 @@ const serviceCards = [
   mapRadius={50}
   phone="208-659-6146"
   email="mountainviewpolebuildings@gmail.com"
-  quoteButtonUrl="/quote"
+  quoteButtonUrl="#quote-form"
   quoteButtonText="Request Your Free Quote"
 />
   
 
   <!-- Work Gallery Section -->
   
-    <ImageGallery />
+    <WorkGallery 
+      title="Our Work"
+      subtitle="Take a look at some of our recent projects"
+      buttonText="See More Work"
+      buttonUrl="/work"
+    />
   
 
   <!-- Quote Form Section -->
@@ -128,7 +133,7 @@ const serviceCards = [
     background-color: #1a5276; /* Deeper blue that conveys trust and reliability */
     color: white;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.25rem;
+    border-radius: 0.125rem;
     font-weight: 600;
     display: inline-block;
     text-decoration: none;

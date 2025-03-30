@@ -1,0 +1,353 @@
+---
+// Define the type for project images
+interface ProjectImage {
+  src: string;
+  alt: string;
+}
+
+// Define the type for each project
+interface Project {
+  id: string;
+  name: string;
+  heading: string;
+  subHeading: string;
+  description: string;
+  images: ProjectImage[];
+}
+
+// Define the props for the component
+interface Props {
+  title?: string;
+  projects: Project[];
+  sectionClass?: string;
+  containerClass?: string;
+}
+
+// Default values for optional props
+const { 
+  title = "Featured Projects", 
+  projects = [],
+  sectionClass = "project-showcase py-16 gradient-section-1",
+  containerClass = "container mx-auto px-4"
+} = Astro.props;
+---
+
+<!-- Project Showcase with Tabs -->
+<section class={sectionClass}>
+  <div class={containerClass}>
+    {title && <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">{title}</h2>}
+    
+    <!-- Tab Navigation -->
+    <div class="tab-navigation-container">
+      <div class="tab-navigation flex flex-wrap justify-center mb-8 border-b border-gray-200">
+        {projects.map((project, index) => (
+          <button 
+            class={`tab-button px-4 py-2 text-base font-medium transition-all duration-300 ${index === 0 ? 'active' : ''}`} 
+            data-tab={project.id}
+          >
+            {project.name}
+          </button>
+        ))}
+      </div>
+    </div>
+    
+    <!-- Tab Content -->
+    <div class="tab-content">
+      {projects.map((project, index) => (
+        <div class={`tab-pane ${index === 0 ? 'active' : ''}`} id={project.id}>
+          <div class="project-info mb-10 text-center">
+            <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">{project.heading}</h3>
+            <p class="text-lg text-gray-600 mb-6">{project.subHeading}</p>
+            <div class="max-w-3xl mx-auto text-gray-700">
+              <p>{project.description}</p>
+            </div>
+          </div>
+          
+          <!-- Project Gallery -->
+          <div class="project-gallery">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {project.images.map((image, imgIndex) => (
+                <div class="gallery-item cursor-pointer" data-project={project.id} data-index={imgIndex}>
+                  <div class="overflow-hidden rounded shadow-md hover:shadow-xl transition-all duration-500">
+                    <img 
+                      src={image.src} 
+                      alt={image.alt} 
+                      class="w-full h-64 object-cover transition-all duration-500 transform hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div class="p-4 bg-white">
+                      <p class="text-gray-700 text-sm">{image.alt}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox Modal for Project Images -->
+<div id="project-lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+  <button id="close-project-lightbox" class="absolute top-6 right-6 text-white text-4xl hover:text-gray-300">&times;</button>
+  <button id="prev-project-image" class="absolute left-6 text-white text-4xl hover:text-gray-300">&larr;</button>
+  <button id="next-project-image" class="absolute right-6 text-white text-4xl hover:text-gray-300">&rarr;</button>
+  <div class="max-w-5xl max-h-[80vh]">
+    <img id="lightbox-project-image" src="" alt="" class="max-h-[80vh] mx-auto rounded">
+    <p id="project-image-caption" class="text-white text-center mt-4 text-lg"></p>
+  </div>
+</div>
+
+<style>
+  /* Tab Navigation Styles */
+  .tab-navigation-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .tab-navigation {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    border-bottom: 2px solid #e2e8f0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tab-navigation::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+
+  .tab-button {
+    color: #666;
+    background-color: #f0f4f8;
+    border: 1px solid #e2e8f0;
+    border-bottom: none;
+    margin-right: 4px;
+    margin-bottom: 0;
+    position: relative;
+    bottom: -2px;
+    white-space: nowrap;
+    font-weight: 500;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  .tab-button:hover {
+    color: #1a5276;
+    background-color: #f8fafc;
+  }
+
+  .tab-button.active {
+    color: #1a5276;
+    background-color: white;
+    border-bottom: 2px solid white;
+    font-weight: 600;
+    z-index: 2;
+  }
+
+  /* Tab Content Styles */
+  .tab-pane {
+    display: none;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+    border-radius: 0 0 0 0;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .tab-pane.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Gallery Item Hover Effect */
+  .gallery-item {
+    transition: transform 0.4s ease;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-5px);
+  }
+</style>
+
+<script>
+  // Define client-side interfaces for TypeScript
+  interface ClientProject {
+    id: string;
+    name: string;
+    images: {
+      src: string;
+      alt: string;
+    }[];
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Tab functionality
+    const tabButtons = document.querySelectorAll<HTMLButtonElement>('.tab-button');
+    const tabPanes = document.querySelectorAll<HTMLDivElement>('.tab-pane');
+    
+    // Initialize the projects data in JavaScript - extract from data attributes
+    const projects: ClientProject[] = [];
+    
+    // Extract project data from DOM elements
+    tabPanes.forEach(pane => {
+      const projectId = pane.id;
+      const buttonSelector = `.tab-button[data-tab="${projectId}"]`;
+      const tabButton = document.querySelector<HTMLButtonElement>(buttonSelector);
+      const projectName = tabButton?.textContent?.trim() || '';
+      
+      // Extract images data
+      const images: {src: string; alt: string}[] = [];
+      const galleryItems = pane.querySelectorAll<HTMLDivElement>('.gallery-item');
+      
+      galleryItems.forEach(item => {
+        const imgElement = item.querySelector<HTMLImageElement>('img');
+        if (imgElement) {
+          images.push({
+            src: imgElement.src,
+            alt: imgElement.alt
+          });
+        }
+      });
+      
+      projects.push({
+        id: projectId,
+        name: projectName,
+        images: images
+      });
+    });
+    
+    // Tab switching functionality
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons and panes
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabPanes.forEach(pane => pane.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding pane
+        button.classList.add('active');
+        const tabId = button.getAttribute('data-tab') || '';
+        const tabElement = document.getElementById(tabId);
+        if (tabElement) {
+          tabElement.classList.add('active');
+        }
+      });
+    });
+    
+    // Lightbox functionality for project images
+    const galleryItems = document.querySelectorAll<HTMLDivElement>('.gallery-item');
+    const lightbox = document.getElementById('project-lightbox');
+    const lightboxImage = document.getElementById('lightbox-project-image') as HTMLImageElement | null;
+    const imageCaption = document.getElementById('project-image-caption');
+    const closeButton = document.getElementById('close-project-lightbox');
+    const prevButton = document.getElementById('prev-project-image');
+    const nextButton = document.getElementById('next-project-image');
+    
+    let currentProject = '';
+    let currentIndex = 0;
+    
+    // Open lightbox when clicking on a gallery item
+    galleryItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const projectId = item.getAttribute('data-project') || '';
+        const imageIndexAttr = item.getAttribute('data-index') || '0';
+        const imageIndex = parseInt(imageIndexAttr);
+        
+        currentProject = projectId;
+        currentIndex = imageIndex;
+        
+        // Find the project
+        const project = projects.find(p => p.id === projectId);
+        if (project && lightbox) {
+          showImage(project, imageIndex);
+          lightbox.classList.remove('hidden');
+          document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+      });
+    });
+    
+    // Close lightbox
+    if (closeButton) {
+      closeButton.addEventListener('click', closeLightbox);
+    }
+    
+    if (lightbox) {
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+    }
+    
+    // Navigate to previous image
+    if (prevButton) {
+      prevButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const project = projects.find(p => p.id === currentProject);
+        if (project) {
+          currentIndex = (currentIndex - 1 + project.images.length) % project.images.length;
+          showImage(project, currentIndex);
+        }
+      });
+    }
+    
+    // Navigate to next image
+    if (nextButton) {
+      nextButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const project = projects.find(p => p.id === currentProject);
+        if (project) {
+          currentIndex = (currentIndex + 1) % project.images.length;
+          showImage(project, currentIndex);
+        }
+      });
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (lightbox && lightbox.classList.contains('hidden')) return;
+      
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        const project = projects.find(p => p.id === currentProject);
+        if (project) {
+          currentIndex = (currentIndex - 1 + project.images.length) % project.images.length;
+          showImage(project, currentIndex);
+        }
+      } else if (e.key === 'ArrowRight') {
+        const project = projects.find(p => p.id === currentProject);
+        if (project) {
+          currentIndex = (currentIndex + 1) % project.images.length;
+          showImage(project, currentIndex);
+        }
+      }
+    });
+    
+    // Function to show an image in the lightbox
+    function showImage(project: ClientProject, index: number): void {
+      const image = project.images[index];
+      if (lightboxImage && imageCaption) {
+        lightboxImage.src = image.src;
+        lightboxImage.alt = image.alt;
+        imageCaption.textContent = image.alt;
+      }
+    }
+    
+    // Function to close the lightbox
+    function closeLightbox(): void {
+      if (lightbox) {
+        lightbox.classList.add('hidden');
+        document.body.style.overflow = ''; // Restore scrolling
+      }
+    }
+  });
+</script>

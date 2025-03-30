@@ -76,7 +76,7 @@ if (imagePosition === 'left') {
 
 // Get image width class safely with fallback
 const imageWidthClass = imageWidthClasses[imageWidth] || 'md:w-1/2';
-const roundedClass = `rounded-${imageRounded}`;
+const roundedClass = imageRounded === "none" ? "" : "rounded";
 const shadowClass = `shadow-${imageShadow}`;
 ---
 

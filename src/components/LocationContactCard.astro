@@ -23,7 +23,7 @@ const {
   email = "info@mtvpolebuildings.com",
   address = "Shoshone County, North Idaho",
   quoteButtonText = "Request a Quote",
-  quoteButtonUrl = "/quote",
+  quoteButtonUrl = "#quote-form",
   mapRadius = 50,
   showIcons = true
 } = Astro.props;
@@ -38,7 +38,7 @@ const {
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <!-- Map Column (takes up 2/3 on larger screens) -->
-      <div class="lg:col-span-2 rounded-lg overflow-hidden shadow-lg">
+      <div class="lg:col-span-2 rounded overflow-hidden shadow-lg">
         <div class="map-container relative z-10 h-full">
           <div class="aspect-w-16 aspect-h-9 h-full">
             <Map mapRadius={mapRadius} />
@@ -50,7 +50,7 @@ const {
       </div>
 
       <!-- Contact Info Column -->
-      <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="bg-white rounded shadow-lg overflow-hidden">
         <div class="p-4 sm:p-6">
           <h3 class="text-xl sm:text-2xl font-bold mb-4 text-gray-800">Contact Us</h3>
           
@@ -127,7 +127,7 @@ const {
     background-color: #1a5276;
     color: white;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.25rem;
+    border-radius: 0.125rem;
     font-weight: 600;
     display: inline-block;
     text-decoration: none;

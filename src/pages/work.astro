@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WorkGallery from '../components/WorkGallery.astro';
+import HeroSecondary from '../components/hero-secondary.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import ProjectShowcase from '../components/projects/ProjectShowcase.astro';
+
+// Define projects for the tab gallery
+const projects = [
+  {
+    id: "kingston-2023",
+    name: "Kingston Barn Project",
+    heading: "Kingston Residential Barn",
+    subHeading: "Custom pole barn with premium finishes completed in July 2023",
+    description: "This 40x60 pole barn was built for a family in Kingston who needed additional storage and workshop space. Features include custom sliding doors, insulated walls, and a full concrete floor.",
+    images: [
+      { src: '/images/projects/kingston-july-2023/mtvpb-kingston-2023-0.webp', alt: 'Kingston barn project - exterior view' },
+      { src: '/images/projects/kingston-july-2023/mtvpb-kingston-2023-1.webp', alt: 'Kingston barn project - side angle' },
+      { src: '/images/projects/kingston-july-2023/mtvpb-kingston-2023-2.webp', alt: 'Kingston barn project - interior framing' },
+      { src: '/images/projects/kingston-july-2023/mtvpb-kingston-2023-3.webp', alt: 'Kingston barn project - door detail' },
+      { src: '/images/projects/kingston-july-2023/mtvpb-kingston-2023-4.webp', alt: 'Kingston barn project - under construction' },
+      { src: '/images/projects/kingston-july-2023/mtvpb-kingston-2023-5.webp', alt: 'Kingston barn project - completed exterior' },
+    ]
+  },
+  {
+    id: "workshop-builds",
+    name: "Workshop Builds",
+    heading: "Custom Workshop Spaces",
+    subHeading: "Specialized pole buildings designed for craftsmen and hobbyists",
+    description: "Our workshop builds are designed with the craftsman in mind. These buildings feature extra windows for natural light, enhanced electrical systems, and customized layouts to maximize workspace efficiency.",
+    images: [
+      { src: '/images/workGallery/mtvpb old photos-10.webp', alt: 'Workshop building exterior' },
+      { src: '/images/workGallery/mtvpb old photos-2.webp', alt: 'Workshop during construction' },
+      { src: '/images/workGallery/mtvpb old photos-7.webp', alt: 'Workshop interior framing' },
+    ]
+  },
+  {
+    id: "storage-solutions",
+    name: "Storage Solutions",
+    heading: "Agricultural & Residential Storage",
+    subHeading: "Durable storage buildings for equipment, vehicles, and more",
+    description: "Our storage buildings are built to last with high-quality materials and meticulous attention to detail. Whether you need to store farm equipment, vehicles, or create additional storage space for your home, we can design and build the perfect solution.",
+    images: [
+      { src: '/images/workGallery/mtvpb_9-4.webp', alt: 'Large storage building' },
+      { src: '/images/workGallery/mtvpb_9-7.webp', alt: 'Storage building with equipment' },
+      { src: '/images/workGallery/mtvpb_9-8.webp', alt: 'Multi-purpose storage facility' },
+    ]
+  }
+];
+---
+
+<Layout title="Our Work | MTV Pole Buildings">
+  <!--Hero Section -->
+  <HeroSecondary 
+    title="Quality Craftsmanship in Every Build"
+    description="Take a look at our featured projects. Each build represents our commitment to quality construction and customer satisfaction."
+    imageSrc="/images/workGallery/mtvpb_9-4.webp"
+    imageAlt="Mountain View Pole Buildings project"
+  />
+
+  <!-- Project Showcase with Tabs (using the project array) -->
+  <ProjectShowcase 
+    title="Featured Projects" 
+    projects={projects}
+    sectionClass="project-showcase py-16 gradient-section-1"
+  />
+
+  <!-- Quote Form Section -->
+  <section class="gradient-section-1 section-padding" id="quote-form">
+    <QuoteForm />
+  </section>
+</Layout>

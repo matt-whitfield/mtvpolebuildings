@@ -4,6 +4,7 @@ import ContentSection from '../components/contentSection.astro';
 import HeroSecondary from '../components/hero-secondary.astro';
 import LocationContactCard from '../components/LocationContactCard.astro';
 import WorkGallery from '../components/WorkGallery.astro';
+import QuoteForm from '../components/QuoteForm.astro';
 ---
 <Layout>
 <!--Hero Section -->
@@ -22,7 +23,7 @@ import WorkGallery from '../components/WorkGallery.astro';
       With decades of combined experience in pole building construction, our licensed contractors bring quality craftsmanship and professional integrity to every project.
     </p>
 
-    <div class="bg-white rounded-xl shadow-lg p-8 md:p-12 space-y-16">
+    <div class="bg-white rounded shadow-lg p-8 md:p-12 space-y-16">
       <!-- Content Section with Custom Props -->
       <ContentSection 
         title="Zack Whitfield"
@@ -55,7 +56,7 @@ import WorkGallery from '../components/WorkGallery.astro';
 <WorkGallery
   title="Pole Building Projects Showcase"
   subtitle="Explore our portfolio of durable, high-quality pole barns, shops, and garages built throughout North Idaho and Western Montana"
-  buttonText="View Our Full Portfolio"
+  buttonText="See More Work"
   buttonUrl="/work"
 />
 
@@ -66,9 +67,14 @@ import WorkGallery from '../components/WorkGallery.astro';
   phone="208-659-6146"
   email="mountainviewpolebuildings@gmail.com"
   mapRadius={50}
-  quoteButtonUrl="/quote"
+  quoteButtonUrl="#quote-form"
   quoteButtonText="Request Your Free Quote"
 />
+
+<!-- Quote Form Section -->
+<section class="gradient-section-1 section-padding" id="quote-form">
+  <QuoteForm />
+</section>
 
 </Layout>
 
@@ -77,7 +83,7 @@ import WorkGallery from '../components/WorkGallery.astro';
     background-color: #1a5276; /* Deeper blue that conveys trust and reliability */
     color: white;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.25rem;
+    border-radius: 0.125rem;
     font-weight: 600;
     display: inline-block;
     text-decoration: none;
