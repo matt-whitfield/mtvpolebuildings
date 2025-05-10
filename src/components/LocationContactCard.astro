@@ -19,8 +19,8 @@ interface Props {
 const {
   title = "Where We Work",
   subtitle = "Serving North Idaho and Western Montana",
-  phone = "555-123-4567",
-  email = "info@mtvpolebuildings.com",
+  phone = "208-512-4282",
+  email = "mtviewpolebuildings@gmail.com",
   address = "Shoshone County, North Idaho",
   quoteButtonText = "Request a Quote",
   quoteButtonUrl = "#quote-form",
@@ -146,11 +146,14 @@ const {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Mountain View Pole Buildings",
-      "image": "/images/mtvpb-svg-logo.svg",
-      "telephone": "555-123-4567",
-      "email": "info@mtvpolebuildings.com",
+      "image": "https://www.mtvpolebuildings.com/images/mtvpb-svg-logo.svg",
+      "telephone": "208-512-4282",
+      "email": "mtviewpolebuildings@gmail.com",
+      "url": "https://www.mtvpolebuildings.com",
+      "description": "Custom pole buildings with over 40 years of experience serving North Idaho and Western Montana",
       "address": {
         "@type": "PostalAddress",
+        "addressLocality": "Shoshone County",
         "addressRegion": "ID",
         "addressCountry": "US"
       },
@@ -159,15 +162,26 @@ const {
         "latitude": 47.45960934695521,
         "longitude": -116.24181060705783
       },
-      "areaServed": {
-        "@type": "GeoCircle",
-        "geoMidpoint": {
-          "@type": "GeoCoordinates",
-          "latitude": 47.45960934695521,
-          "longitude": -116.24181060705783
+      "areaServed": [
+        {
+          "@type": "GeoCircle",
+          "geoMidpoint": {
+            "@type": "GeoCoordinates",
+            "latitude": 47.45960934695521,
+            "longitude": -116.24181060705783
+          },
+          "geoRadius": "80467" // 50 miles in meters
         },
-        "geoRadius": "80467" // 50 miles in meters
-      },
+        {
+          "@type": "State",
+          "name": "North Idaho"
+        },
+        {
+          "@type": "State",
+          "name": "Western Montana"
+        }
+      ],
+      "priceRange": "$$",
       "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": [
@@ -179,6 +193,59 @@ const {
         ],
         "opens": "08:00",
         "closes": "17:00"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Pole Building Services",
+        "itemListElement": [
+          {
+            "@type": "OfferCatalog",
+            "name": "Residential Pole Buildings",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Residential Garages"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Storage Buildings"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Workshops"
+                }
+              }
+            ]
+          },
+          {
+            "@type": "OfferCatalog",
+            "name": "Commercial Pole Buildings",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Agricultural Buildings"
+                }
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Commercial Warehouses"
+                }
+              }
+            ]
+          }
+        ]
       }
     };
 

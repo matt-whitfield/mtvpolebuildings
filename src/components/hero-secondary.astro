@@ -34,10 +34,10 @@ const {
   
   <div class="container relative mx-auto px-4 py-20 z-10">
     <div class="max-w-2xl mx-auto md:mx-0 md:ml-8 lg:ml-16 text-center md:text-left">
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight shadow-text scroll-animate slide-right">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight scroll-animate slide-right">
         {title}
       </h1>
-      <p class="text-lg md:text-xl text-white mb-8 shadow-text scroll-animate slide-up">
+      <p class="text-lg md:text-xl text-white mb-8 scroll-animate slide-up">
         {description}
       </p>
       {showButton && (
@@ -81,10 +81,6 @@ const {
     position: relative;
     display: flex;
     align-items: center;
-  }
-  
-  .shadow-text {
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   }
   
   /* Base style for scroll animation elements - initially hidden */

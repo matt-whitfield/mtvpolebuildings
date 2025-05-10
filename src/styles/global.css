@@ -80,6 +80,19 @@
     height: 3px;
   }
 
+  /* Footer contact link styling */
+  .footer-contact-link {
+    @apply text-gray-700 hover:text-[#346267] font-['Work_Sans',_sans-serif] transition-colors duration-300 flex items-center gap-2;
+  }
+  
+  .footer-contact-link svg {
+    @apply text-[#346267];
+  }
+  
+  .footer-contact-link:hover svg {
+    @apply text-[#1a5276];
+  }
+
   /* Mobile menu button icon styling */
   .menu-icon {
     @apply text-primary transition-transform duration-300;
@@ -136,6 +149,86 @@
 
   .mobile-quote-button:hover {
     background-color: #2471a3; /* Hover state */
+  }
+  
+  /* Project Showcase Component Styles */
+  
+  /* Tab Navigation Styles */
+  .tab-navigation-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .tab-navigation {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    border-bottom: 2px solid #e2e8f0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tab-navigation::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
+
+  .tab-button {
+    color: #666;
+    background-color: #f0f4f8;
+    border: 1px solid #e2e8f0;
+    border-bottom: none;
+    margin-right: 4px;
+    margin-bottom: 0;
+    position: relative;
+    bottom: -2px;
+    white-space: nowrap;
+    font-weight: 500;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  .tab-button:hover {
+    color: #1a5276;
+    background-color: #f8fafc;
+  }
+
+  .tab-button.active {
+    color: #1a5276;
+    background-color: white;
+    border-bottom: 2px solid white;
+    font-weight: 600;
+    z-index: 2;
+  }
+
+  /* Tab Content Styles */
+  .tab-pane {
+    display: none;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-top: none;
+    border-radius: 0 0 0 0;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .tab-pane.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Gallery Item Hover Effect */
+  .gallery-item {
+    transition: transform 0.4s ease;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-5px);
   }
 }
 

@@ -1,0 +1,155 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HeroSecondary from '../../components/hero-secondary.astro';
+import QuoteForm from '../../components/QuoteForm.astro';
+import Map from '../../components/map-component.astro';
+---
+
+<Layout 
+  title="North Idaho Pole Buildings | Mountain View Pole Buildings"
+  description="Professional pole building contractors serving North Idaho including Shoshone County, Kootenai County, and Bonner County. Licensed and experienced builders with over 40 years in the industry."
+  keywords="pole buildings North Idaho, barn builders Shoshone County, Kootenai County pole barns, Bonner County construction"
+>
+  <HeroSecondary 
+    title="North Idaho Pole Building Experts"
+    description="Mountain View Pole Buildings provides quality pole building construction throughout North Idaho."
+    imageSrc="/images/workGallery/mtvpb old photos-10.webp"
+    imageAlt="North Idaho pole building project"
+  />
+  
+  <section class="gradient-section-1 py-20">
+    <div class="container mx-auto px-6">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-10 text-center text-animate">Serving All of North Idaho</h1>
+      <p class="text-lg md:text-xl text-gray-600 mb-16 text-center max-w-3xl mx-auto text-animate">
+        Our professional pole building services are available throughout North Idaho including Shoshone County, Kootenai County, Bonner County, and beyond.
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-20">
+        <div class="text-animate">
+          <h2 class="text-2xl md:text-3xl font-bold mb-6 text-primary">North Idaho Service Area</h2>
+          <p class="mb-6 text-lg">We proudly serve customers throughout North Idaho with our custom pole building solutions. Our service area includes:</p>
+          <ul class="list-disc pl-7 mb-8 space-y-2">
+            <li>Shoshone County</li>
+            <li>Kootenai County</li>
+            <li>Bonner County</li>
+            <li>Boundary County</li>
+            <li>Benewah County</li>
+          </ul>
+          <p class="text-lg">Living and working in North Idaho ourselves, we understand the local building requirements and climate considerations that affect pole building construction in the region.</p>
+        </div>
+        <div class="map-container relative z-10 shadow-lg rounded-lg overflow-hidden text-animate">
+          <div class="aspect-w-16 aspect-h-9">
+            <Map mapRadius={50} />
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-24 mb-24 text-animate">
+        <h2 class="text-2xl md:text-3xl font-bold mb-10 text-center text-primary">Popular Pole Building Types in North Idaho</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Storage Buildings</h3>
+            <p class="text-gray-600">Perfect for protecting equipment from North Idaho's snowy winters and storing recreational vehicles.</p>
+          </div>
+          <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Workshops</h3>
+            <p class="text-gray-600">Custom-designed workshops for businesses and hobbyists throughout the Panhandle region.</p>
+          </div>
+          <div class="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <h3 class="text-xl font-bold mb-4 text-gray-800">Residential Garages</h3>
+            <p class="text-gray-600">Multi-vehicle garages built to withstand North Idaho's weather conditions.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-24 mb-16 text-animate">
+        <h2 class="text-2xl md:text-3xl font-bold mb-10 text-center text-primary">Featured North Idaho Projects</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div class="bg-white rounded-lg shadow-lg overflow-hidden gallery-item">
+            <img src="/images/projects/kingston-july-2023/mtvpb-kingston-2023-0.webp" alt="Kingston Residential Barn" class="w-full h-72 object-cover">
+            <div class="p-8">
+              <h3 class="text-xl font-bold mb-3 text-gray-800">Kingston Residential Barn</h3>
+              <p class="mb-5 text-gray-600">This highly custom pole barn in Kingston features an interior loft, unique trim, and premium finishes.</p>
+              <a href="/work" class="text-primary hover:text-hover font-semibold hover:underline inline-flex items-center">
+                View Project Details
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg shadow-lg overflow-hidden gallery-item">
+            <img src="/images/workGallery/mtvpb_9-4.webp" alt="Storage Building in North Idaho" class="w-full h-72 object-cover">
+            <div class="p-8">
+              <h3 class="text-xl font-bold mb-3 text-gray-800">Custom Storage Solution</h3>
+              <p class="mb-5 text-gray-600">A durable storage building designed specifically for North Idaho's climate and built to last.</p>
+              <a href="/work" class="text-primary hover:text-hover font-semibold hover:underline inline-flex items-center">
+                View Our Work
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="gradient-section-1 py-16" id="quote-form">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-10 text-animate">
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-primary">Ready to Build in North Idaho?</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Contact us today to discuss your North Idaho pole building project and get a free quote.</p>
+      </div>
+      <QuoteForm />
+    </div>
+  </section>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "North Idaho Pole Building Construction",
+      "serviceType": "Pole Building Construction",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Mountain View Pole Buildings",
+        "telephone": "208-512-4282",
+        "email": "mtviewpolebuildings@gmail.com"
+      },
+      "areaServed": [
+        {
+          "@type": "State",
+          "name": "North Idaho"
+        },
+        {
+          "@type": "County",
+          "name": "Shoshone County",
+          "containedIn": "Idaho"
+        },
+        {
+          "@type": "County",
+          "name": "Kootenai County",
+          "containedIn": "Idaho"
+        },
+        {
+          "@type": "County",
+          "name": "Bonner County",
+          "containedIn": "Idaho"
+        },
+        {
+          "@type": "County",
+          "name": "Boundary County",
+          "containedIn": "Idaho"
+        },
+        {
+          "@type": "County",
+          "name": "Benewah County",
+          "containedIn": "Idaho"
+        }
+      ],
+      "description": "Professional pole building construction services throughout North Idaho, including custom residential and commercial structures built to withstand local weather conditions."
+    }
+  </script>
+</Layout>
