@@ -10,9 +10,9 @@ interface Props {
 
 // Destructure the props with default values
 const {
-  title = "Our Work",
-  subtitle = "Take a look at some of our recent projects",
-  buttonText = "More Work",
+  title = "Work Gallery",
+  subtitle = "Explore our recent pole building projects",
+  buttonText = "View All Work",
   buttonUrl = "/work",
   images = [
     {
@@ -45,54 +45,85 @@ const {
 
 <section class="work-gallery py-16 gradient-section-1 section-padding">
   <div class="container mx-auto px-4">
-    <div class="text-center mb-10">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
       <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 scroll-animate slide-right">{title}</h2>
       <p class="text-lg text-gray-600 max-w-2xl mx-auto scroll-animate slide-up">{subtitle}</p>
     </div>
 
-    <div class="gallery-container relative scroll-animate fade-in">
-      <div class="gallery-scroll-area flex space-x-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
-        {images.map((image, index) => (
-          <div class="flex-shrink-0 w-80 h-64 snap-center gallery-item" style={`--delay: ${index * 100}ms`}>
-            <div class="h-full w-full overflow-hidden rounded shadow-md hover:shadow-xl transition-all duration-500">
-              <img 
-                src={image.src} 
-                alt={image.alt} 
-                class="w-full h-full object-cover transition-all duration-500 transform hover:scale-110"
-                loading="lazy"
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- Gallery navigation indicators -->
-    <div class="flex justify-center items-center mt-6 mb-8">
-      <button class="gallery-dot-nav prev mr-6 text-gray-500 hover:text-primary">
+    <!-- Carousel Container -->
+    <div class="work-carousel-container relative max-w-5xl mx-auto mb-8 scroll-animate fade-in">
+      <!-- Navigation Arrows -->
+      <button 
+        id="work-prev-btn" 
+        class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 rounded p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+        aria-label="Previous image"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
       </button>
       
-      <div class="gallery-dots flex space-x-3">
-        {images.map((_, index) => (
-          <button 
-            class="gallery-dot w-3.5 h-3.5 rounded-full bg-gray-300 transition-all duration-300 hover:bg-primary" 
-            data-index={index}
-            aria-label={`View image ${index + 1}`}
-          ></button>
-        ))}
-      </div>
-      
-      <button class="gallery-dot-nav next ml-6 text-gray-500 hover:text-primary">
+      <button 
+        id="work-next-btn" 
+        class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 rounded p-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+        aria-label="Next image"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
       </button>
+
+      <!-- Carousel Track -->
+      <div class="work-carousel-track-container overflow-hidden rounded">
+        <div id="work-carousel-track" class="work-carousel-track flex transition-transform duration-500 ease-out">
+          {images.map((image, index) => (
+            <div 
+              class="work-carousel-slide flex-shrink-0 w-full relative cursor-pointer group" 
+              data-index={index}
+            >
+              <div class="aspect-video w-full overflow-hidden bg-gray-100">
+                <img 
+                  src={image.src} 
+                  alt={image.alt} 
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              </div>
+              <!-- Image overlay on hover -->
+              <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-lg font-semibold bg-black/50 px-4 py-2 rounded">
+                  Click to view
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
 
-    <div class="text-center mt-4 scroll-animate fade-in-delay">
+    <!-- Thumbnail Navigation -->
+    <div class="flex justify-center mb-8 px-4">
+      <div class="flex space-x-3 overflow-x-auto max-w-full py-3 px-2">
+        {images.map((image, index) => (
+          <button 
+            class="work-thumbnail flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded overflow-hidden transition-all duration-300 hover:scale-105 border-2 border-transparent"
+            data-index={index}
+            aria-label={`View image ${index + 1}`}
+          >
+            <img 
+              src={image.src} 
+              alt={image.alt} 
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA Button -->
+    <div class="text-center scroll-animate fade-in-delay">
       <a href={buttonUrl} class="btn-primary inline-block">
         {buttonText}
       </a>
@@ -100,113 +131,150 @@ const {
   </div>
 </section>
 
-<style>
-  /* Hide scrollbar but keep functionality */
-  .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari and Opera */
-  }
-  
-  /* Gallery dot indicator styles */
-  .gallery-dot.active {
-    background-color: #1a5276;
-    width: 1.25rem;
-  }
-  
-  .gallery-dot-nav {
-    transition: all 0.3s ease;
-  }
-  
-  .gallery-dot-nav:hover {
-    transform: scale(1.2);
-  }
-  
-  /* Gallery item hover effect */
-  .gallery-item {
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  
-  .gallery-item:hover {
-    transform: translateY(-5px);
-  }
-  
-  /* Custom styling for the primary button to match site theme */
-  .btn-primary {
-    background-color: #1a5276;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.125rem;
-    font-weight: 600;
-    display: inline-block;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  
-  .btn-primary:hover {
-    background-color: #2471a3;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Animation styles based on contentSection.astro */
-  .scroll-animate {
-    opacity: 0;
-    transition: all 0.8s ease-out;
-  }
-  
-  /* Animation classes */
-  .scroll-animate.slide-up {
-    transform: translateY(30px);
-  }
-  
-  .scroll-animate.slide-right {
-    transform: translateX(-30px);
-  }
-  
-  .scroll-animate.fade-in {
-    opacity: 0;
-    transform: scale(1.02);
-  }
-  
-  .scroll-animate.fade-in-delay {
-    opacity: 0;
-    transition-delay: 0.2s;
-  }
-  
-  .scroll-animate.animate {
-    opacity: 1;
-    transform: translate(0) scale(1);
-  }
-  
-  /* Theme color for consistent styling */
-  .text-primary {
-    color: #1a5276;
-  }
-  
-  .hover\:text-primary:hover {
-    color: #1a5276;
-  }
-  
-  .bg-primary {
-    background-color: #1a5276;
-  }
-  
-  .hover\:bg-primary:hover {
-    background-color: #1a5276;
-  }
-</style>
+<!-- Lightbox Modal for Work Gallery Images -->
+<div id="work-lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+  <button id="close-work-lightbox" class="absolute top-6 right-6 text-white text-4xl hover:text-gray-300 z-10">&times;</button>
+  <button id="prev-work-image" class="absolute left-6 text-white text-4xl hover:text-gray-300 z-10">&larr;</button>
+  <button id="next-work-image" class="absolute right-6 text-white text-4xl hover:text-gray-300 z-10">&rarr;</button>
+  <div class="max-w-6xl max-h-[90vh] mx-auto px-4">
+    <img id="lightbox-work-image" src="" alt="" class="max-h-[90vh] max-w-full mx-auto rounded shadow-2xl">
+    <p id="work-image-caption" class="text-white text-center mt-4 text-lg"></p>
+    <div class="text-center mt-2">
+      <span id="work-image-counter" class="text-gray-300 text-sm"></span>
+    </div>
+  </div>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // Gallery scroll functionality
-  const scrollArea = document.querySelector('.gallery-scroll-area');
-  const galleryDots = document.querySelectorAll('.gallery-dot');
-  const prevDotNav = document.querySelector('.gallery-dot-nav.prev');
-  const nextDotNav = document.querySelector('.gallery-dot-nav.next');
+  // Carousel elements
+  const carousel = document.getElementById('work-carousel-track');
+  const slides = document.querySelectorAll('.work-carousel-slide');
+  const thumbnails = document.querySelectorAll('.work-thumbnail');
+  const prevBtn = document.getElementById('work-prev-btn');
+  const nextBtn = document.getElementById('work-next-btn');
   
+  // Lightbox elements
+  const lightbox = document.getElementById('work-lightbox');
+  const lightboxImage = document.getElementById('lightbox-work-image') as HTMLImageElement | null;
+  const imageCaption = document.getElementById('work-image-caption');
+  const imageCounter = document.getElementById('work-image-counter');
+  const closeButton = document.getElementById('close-work-lightbox');
+  const prevLightboxButton = document.getElementById('prev-work-image');
+  const nextLightboxButton = document.getElementById('next-work-image');
+  
+  // Extract images data from slides
+  const images: {src: string; alt: string}[] = [];
+  slides.forEach(slide => {
+    const imgElement = slide.querySelector<HTMLImageElement>('img');
+    if (imgElement) {
+      images.push({
+        src: imgElement.src,
+        alt: imgElement.alt
+      });
+    }
+  });
+  
+  let currentIndex = 0;
+  let currentLightboxIndex = 0;
+  const totalSlides = slides.length;
+
+  // Function to update carousel position and thumbnail highlighting
+  function updateCarousel(index: number): void {
+    if (!carousel) return;
+    
+    // Update carousel position
+    const translateX = -index * 100;
+    carousel.style.transform = `translateX(${translateX}%)`;
+    
+    // Update thumbnail highlighting
+    thumbnails.forEach((thumbnail, i) => {
+      if (i === index) {
+        thumbnail.classList.add('border-primary', 'border-4', 'scale-110');
+        thumbnail.classList.remove('border-transparent');
+      } else {
+        thumbnail.classList.remove('border-primary', 'border-4', 'scale-110');
+        thumbnail.classList.add('border-transparent');
+      }
+    });
+    
+    currentIndex = index;
+  }
+
+  // Initialize first thumbnail as active
+  updateCarousel(0);
+
+  // Navigation button functionality
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
+      updateCarousel(newIndex);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
+      updateCarousel(newIndex);
+    });
+  }
+
+  // Thumbnail click functionality
+  thumbnails.forEach((thumbnail, index) => {
+    thumbnail.addEventListener('click', () => {
+      updateCarousel(index);
+    });
+  });
+
+  // Slide click functionality for lightbox
+  slides.forEach((slide, index) => {
+    slide.addEventListener('click', () => {
+      currentLightboxIndex = index;
+      if (lightbox) {
+        showLightboxImage(currentLightboxIndex);
+        lightbox.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  // Touch/Swipe functionality for mobile
+  let startX = 0;
+  let currentX = 0;
+  let isDragging = false;
+
+  if (carousel) {
+    carousel.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    });
+
+    carousel.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      currentX = e.touches[0].clientX;
+    });
+
+    carousel.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      
+      const diffX = startX - currentX;
+      const threshold = 50; // Minimum swipe distance
+      
+      if (Math.abs(diffX) > threshold) {
+        if (diffX > 0) {
+          // Swipe left - next image
+          const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
+          updateCarousel(newIndex);
+        } else {
+          // Swipe right - previous image
+          const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
+          updateCarousel(newIndex);
+        }
+      }
+    });
+  }
+
   // Animation setup using Intersection Observer
   const scrollAnimateElements = document.querySelectorAll('.scroll-animate');
   
@@ -214,81 +282,91 @@ document.addEventListener('DOMContentLoaded', () => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('animate');
-        // Unobserve after animation to improve performance
         observer.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.1,  // Trigger when 10% of the element is visible
-    rootMargin: '0px 0px -50px 0px'  // Slight offset to trigger before fully in view
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
   });
   
   scrollAnimateElements.forEach(element => {
-    // Reset initial state
     element.classList.remove('animate');
     observer.observe(element);
   });
+
+  // Lightbox functionality
+  if (closeButton) {
+    closeButton.addEventListener('click', closeLightbox);
+  }
   
-  if (scrollArea && galleryDots.length > 0) {
-    let currentIndex = 0;
-    const itemWidth = 320; // Width of gallery item plus margin
-    
-    // Function to update active dot indicator
-    const updateActiveDot = (index: number): void => {
-      galleryDots.forEach((dot, i) => {
-        if (i === index) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
-        }
-      });
-    };
-    
-    // Set first dot as active initially
-    updateActiveDot(0);
-    
-    // Scroll to specific item when clicking on a dot
-    galleryDots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        currentIndex = index;
-        updateActiveDot(currentIndex);
-        scrollArea.scrollTo({
-          left: itemWidth * currentIndex,
-          behavior: 'smooth'
-        });
-      });
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
     });
-    
-    // Prev/Next button functionality for the dots navigation
-    if (prevDotNav && nextDotNav) {
-      prevDotNav.addEventListener('click', () => {
-        currentIndex = Math.max(0, currentIndex - 1);
-        updateActiveDot(currentIndex);
-        scrollArea.scrollTo({
-          left: itemWidth * currentIndex,
-          behavior: 'smooth'
-        });
-      });
-      
-      nextDotNav.addEventListener('click', () => {
-        currentIndex = Math.min(galleryDots.length - 1, currentIndex + 1);
-        updateActiveDot(currentIndex);
-        scrollArea.scrollTo({
-          left: itemWidth * currentIndex,
-          behavior: 'smooth'
-        });
-      });
+  }
+  
+  // Navigate to previous image in lightbox
+  if (prevLightboxButton) {
+    prevLightboxButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentLightboxIndex = (currentLightboxIndex - 1 + images.length) % images.length;
+      showLightboxImage(currentLightboxIndex);
+    });
+  }
+  
+  // Navigate to next image in lightbox
+  if (nextLightboxButton) {
+    nextLightboxButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      currentLightboxIndex = (currentLightboxIndex + 1) % images.length;
+      showLightboxImage(currentLightboxIndex);
+    });
+  }
+  
+  // Keyboard navigation for carousel and lightbox
+  document.addEventListener('keydown', (e) => {
+    // Lightbox navigation
+    if (lightbox && !lightbox.classList.contains('hidden')) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        currentLightboxIndex = (currentLightboxIndex - 1 + images.length) % images.length;
+        showLightboxImage(currentLightboxIndex);
+      } else if (e.key === 'ArrowRight') {
+        currentLightboxIndex = (currentLightboxIndex + 1) % images.length;
+        showLightboxImage(currentLightboxIndex);
+      }
+      return;
     }
     
-    // Update active dot based on scroll position
-    scrollArea.addEventListener('scroll', () => {
-      const scrollPosition = scrollArea.scrollLeft;
-      const index = Math.round(scrollPosition / itemWidth);
-      if (index !== currentIndex && index >= 0 && index < galleryDots.length) {
-        currentIndex = index;
-        updateActiveDot(currentIndex);
-      }
-    });
+    // Carousel navigation (only when lightbox is closed)
+    if (e.key === 'ArrowLeft') {
+      const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
+      updateCarousel(newIndex);
+    } else if (e.key === 'ArrowRight') {
+      const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
+      updateCarousel(newIndex);
+    }
+  });
+  
+  // Function to show an image in the lightbox
+  function showLightboxImage(index: number): void {
+    const image = images[index];
+    if (lightboxImage && imageCaption && imageCounter) {
+      lightboxImage.src = image.src;
+      lightboxImage.alt = image.alt;
+      imageCaption.textContent = image.alt;
+      imageCounter.textContent = `${index + 1} of ${images.length}`;
+    }
+  }
+  
+  // Function to close the lightbox
+  function closeLightbox(): void {
+    if (lightbox) {
+      lightbox.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
   }
 });
 </script>

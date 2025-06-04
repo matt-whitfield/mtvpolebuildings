@@ -230,6 +230,247 @@
   .gallery-item:hover {
     transform: translateY(-5px);
   }
+
+  /* WorkGallery Component Styles */
+  
+  /* WorkGallery Component Styles */
+  
+  /* Carousel container and navigation */
+  .work-carousel-container {
+    position: relative;
+    max-width: 80rem; /* 5xl */
+    margin: 0 auto;
+  }
+  
+  /* Navigation arrow buttons - sharp, angular design for contractors */
+  .work-carousel-container button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.9);
+    color: #374151; /* gray-700 */
+    border-radius: 0.25rem; /* rounded - sharp corners */
+    padding: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .work-carousel-container button:hover {
+    background: white;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  #work-prev-btn {
+    left: 1rem;
+  }
+  
+  #work-next-btn {
+    right: 1rem;
+  }
+  
+  /* Carousel track and slides */
+  .work-carousel-track-container {
+    overflow: hidden;
+    border-radius: 0.25rem; /* rounded - sharp corners */
+  }
+  
+  .work-carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-out;
+  }
+  
+  .work-carousel-slide {
+    flex-shrink: 0;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .work-carousel-slide .group:hover img {
+    transform: scale(1.05);
+  }
+  
+  /* Thumbnail navigation styles - sharp design */
+  .work-thumbnail {
+    flex-shrink: 0;
+    width: 4rem; /* 16 */
+    height: 4rem; /* 16 */
+    border-radius: 0.25rem; /* rounded - sharp corners */
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  @media (min-width: 768px) {
+    .work-thumbnail {
+      width: 5rem; /* 20 */
+      height: 5rem; /* 20 */
+    }
+  }
+  
+  .work-thumbnail:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Active thumbnail styling */
+  .work-thumbnail.border-primary {
+    border-color: #1a5276;
+    border-width: 4px;
+    transform: scale(1.1);
+  }
+  
+  .work-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Legacy WorkGallery styles - keeping for backward compatibility */
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari and Opera */
+  }
+  
+  /* Gallery dot indicator styles */
+  .work-gallery-dot.active {
+    background-color: #1a5276;
+    width: 1.25rem;
+  }
+  
+  .work-gallery-dot-nav {
+    transition: all 0.3s ease;
+  }
+  
+  .work-gallery-dot-nav:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Gallery item hover and highlighting effects */
+  .work-gallery-item {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .work-gallery-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Gallery item highlighting for active image */
+  .work-gallery-item.highlighted {
+    transform: translateY(-5px) scale(1.05);
+  }
+  
+  .work-gallery-item.highlighted .work-gallery-item-container {
+    border: 3px solid #1a5276;
+    box-shadow: 0 10px 25px rgba(26, 82, 118, 0.3);
+  }
+  
+  .work-gallery-item-container {
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  /* Dynamic height container for work gallery */
+  .work-gallery-item-container {
+    min-height: 16rem; /* Equivalent to h-64 */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .work-gallery-item-container img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+    object-fit: cover;
+    flex: 1;
+  }
+
+  /* Work Gallery Lightbox Styles */
+  #work-lightbox {
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  #work-lightbox.hidden {
+    animation: fadeOut 0.3s ease-out;
+  }
+  
+  #lightbox-work-image {
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  #work-lightbox button {
+    transition: all 0.3s ease;
+    border-radius: 0.25rem; /* Updated to sharp corners */
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  
+  #work-lightbox button:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+  }
+  
+  #close-work-lightbox {
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+  
+  #prev-work-image {
+    left: 1.5rem;
+  }
+  
+  #next-work-image {
+    right: 1.5rem;
+  }
+
+  /* Animation styles for scroll animations */
+  .scroll-animate {
+    opacity: 0;
+    transition: all 0.8s ease-out;
+  }
+  
+  /* Animation classes */
+  .scroll-animate.slide-up {
+    transform: translateY(30px);
+  }
+  
+  .scroll-animate.slide-right {
+    transform: translateX(-30px);
+  }
+  
+  .scroll-animate.fade-in {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  
+  .scroll-animate.fade-in-delay {
+    opacity: 0;
+    transition-delay: 0.2s;
+  }
+  
+  .scroll-animate.animate {
+    opacity: 1;
+    transform: translate(0) scale(1);
+  }
+
+  /* Project Showcase specific styles */
+  .project-gallery-item {
+    transition: transform 0.4s ease;
+  }
+
+  .project-gallery-item:hover {
+    transform: translateY(-5px);
+  }
 }
 
 /* Responsive layout utilities */

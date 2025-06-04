@@ -6,7 +6,7 @@ import QuoteForm from '../components/QuoteForm.astro';
 import ProjectShowcase from '../components/projects/ProjectShowcase.astro';
 
 // Define projects for the tab gallery
-const projects = [
+const featuredProject = 
   {
     id: "kingston-2023",
     name: "Kingston Barn Project",
@@ -22,32 +22,7 @@ const projects = [
       { src: '/images/projects/kingston-july-2023/mtvpb-kingston-2023-5.webp', alt: 'Framed trusses' },
       { src: '/images/projects/kingston-july-2023/mtvpb-kingston-2023-6.webp', alt: 'Ready for truss raise' },
     ]
-  },
-  {
-    id: "workshop-builds",
-    name: "Workshop Builds",
-    heading: "Custom Workshop Spaces",
-    subHeading: "Specialized pole buildings designed for craftsmen and hobbyists",
-    description: "Our workshop builds are designed with the craftsman in mind. These buildings feature extra windows for natural light, enhanced electrical systems, and customized layouts to maximize workspace efficiency.",
-    images: [
-      { src: '/images/workGallery/mtvpb old photos-10.webp', alt: 'Workshop building exterior' },
-      { src: '/images/workGallery/mtvpb old photos-2.webp', alt: 'Workshop during construction' },
-      { src: '/images/workGallery/mtvpb old photos-7.webp', alt: 'Workshop interior framing' },
-    ]
-  },
-  {
-    id: "storage-solutions",
-    name: "Storage Solutions",
-    heading: "Agricultural & Residential Storage",
-    subHeading: "Durable storage buildings for equipment, vehicles, and more",
-    description: "Our storage buildings are built to last with high-quality materials and meticulous attention to detail. Whether you need to store farm equipment, vehicles, or create additional storage space for your home, we can design and build the perfect solution.",
-    images: [
-      { src: '/images/workGallery/mtvpb_9-4.webp', alt: 'Large storage building' },
-      { src: '/images/workGallery/mtvpb_9-7.webp', alt: 'Storage building with equipment' },
-      { src: '/images/workGallery/mtvpb_9-8.webp', alt: 'Multi-purpose storage facility' },
-    ]
-  }
-];
+  };
 ---
 
 <Layout 
@@ -66,10 +41,18 @@ const projects = [
 
   <!-- Project Showcase with Tabs (using the project array) -->
   <ProjectShowcase 
-    title="Featured Projects" 
-    projects={projects}
+    title="Recent Project Highlights" 
+    project={featuredProject}
     sectionClass="project-showcase py-16 gradient-section-1"
   />
+   <!-- Work Gallery Section -->
+  
+    <WorkGallery 
+      title="Work Gallery"
+      subtitle="Here's a look at some more of our work. We take pride in every project, big or small."
+      buttonText="See More Work"
+      buttonUrl="/work"
+    />
 
   <!-- Quote Form Section -->
   <section class="gradient-section-1 section-padding" id="quote-form">
