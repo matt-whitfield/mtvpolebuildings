@@ -70,6 +70,80 @@ const formattedTitle = title === "MTV Pole Buildings" ? title : `${title} | MTV 
 		
 		<!-- Robots (assuming we'll enable indexing in production) -->
 		<meta name="robots" content="index, follow" />
+
+		<!-- Structured Data (JSON-LD) -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Mountain View Pole Buildings",
+      "url": "https://mountainviewpolebuildings.com",
+      "description": "Mountain View Pole Buildings specializes in custom pole buildings with over 40 years of experience. Serving North Idaho and Western Montana",
+      "logo": "",
+      "potentialAction": {
+        "@type": "ContactAction",
+        "target": "https://mountainviewpolebuildings.com/#quote-form",
+        "name": "Request a Quote"
+      },
+    })}></script>
+		<script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ConstructionCompany",
+      "name": "Mountain View Pole Buildings",
+      "description": "Mountain View Pole Buildings specializes in custom pole buildings with over 40 years of experience. Serving North Idaho and Western Montana.",
+      "url": "https://mountainviewpolebuildings.com",
+      "logo": "/images/mtvpb-svg-logo.svg",
+      "telephone": "+1-208-512-4282",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "607 Oregon ST.", 
+        "addressLocality": "Pinehurst", 
+        "addressRegion": "ID", 
+        "postalCode": "83850", 
+        "addressCountry": "US"
+      },
+      "areaServed": [
+        "North Idaho",
+        "Western Montana"
+      ],
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 47.53910, 
+        "longitude": -116.24142
+      },
+      "openingHours": "Mo-Fr 08:00-17:00",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+208-512-4282",
+        "contactType": "customer service"
+      },
+      // "aggregateRating": {
+      //   "@type": "AggregateRating",
+      //   "ratingValue": "5",
+      //   "reviewCount": "12"
+      // },
+      // "review": [
+      //   {
+      //     "@type": "Review",
+      //     "author": "John Doe",
+      //     "datePublished": "2024-04-10",
+      //     "reviewBody": "Excellent craftsmanship and communication. Highly recommend!",
+      //     "reviewRating": {
+      //       "@type": "Rating",
+      //       "ratingValue": "5"
+      //     }
+      //   },
+      //   {
+      //     "@type": "Review",
+      //     "author": "Jane Smith",
+      //     "datePublished": "2024-03-15",
+      //     "reviewBody": "Professional team and quality work. Will use again.",
+      //     "reviewRating": {
+      //       "@type": "Rating",
+      //       "ratingValue": "5"
+      //     }
+      //   }
+      // ]
+    })}></script>
 		
 		<!-- Additional head content from individual pages -->
 		<slot name="head" />
