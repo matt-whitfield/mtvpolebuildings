@@ -17,6 +17,7 @@ interface FeaturedProject {
 // Define the props for the component
 interface Props {
   title?: string;
+  subtitle?: string;
   project: FeaturedProject;
   sectionClass?: string;
   containerClass?: string;
@@ -24,7 +25,8 @@ interface Props {
 
 // Default values for optional props
 const { 
-  title = "Featured Project", 
+  title = "Featured Project",
+  subtitle = "We're builders, not photographers. We do our best to capture the quality of our work and keep it recent, but we do not regularly update this page.",
   project,
   sectionClass = "project-showcase py-16 gradient-section-1",
   containerClass = "container mx-auto px-4"
@@ -34,7 +36,8 @@ const {
 <!-- Featured Project Showcase -->
 <section class={sectionClass}>
   <div class={containerClass}>
-    {title && <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">{title}</h2>}
+    {title && <h2 class="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-800">{title}</h2>}
+     {subtitle && <p class="text-lg md:text-lg text-center mb-12 text-gray-800">{subtitle}</h2>}
     
     <!-- 2x2 Grid Layout -->
     <div class="grid lg:grid-cols-2 lg:grid-rows-2 gap-6 lg:gap-8">
