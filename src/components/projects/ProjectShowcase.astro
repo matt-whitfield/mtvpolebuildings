@@ -58,18 +58,9 @@ const {
         </div>
       </div>
 
-      <!-- Project Information - First row of second column -->
-      <div class="project-info order-2 lg:order-2 flex flex-col justify-center">
-        <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">{project.heading}</h3>
-        <p class="text-lg text-gray-600 mb-6">{project.subHeading}</p>
-        <div class="text-gray-700">
-          <p class="text-base leading-relaxed">{project.description}</p>
-        </div>
-      </div>
-      
-      <!-- Thumbnail Gallery - Second row of second column -->
+      <!-- Thumbnail Gallery - Shows second on mobile (after main image), third on desktop -->
       {project.images.length > 1 && (
-        <div class="thumbnail-gallery order-3 lg:order-3 flex flex-col justify-start">
+        <div class="thumbnail-gallery order-2 lg:order-3 flex flex-col justify-start">
           <h4 class="text-lg font-semibold mb-4 text-gray-800">Project Gallery</h4>
           <div class="flex flex-wrap gap-3">
             {project.images.map((image, index) => (
@@ -87,6 +78,15 @@ const {
           <p id="featured-image-caption-desktop" class="hidden lg:block text-gray-600 mt-4 text-sm">{project.images[0]?.alt}</p>
         </div>
       )}
+
+      <!-- Project Information - Shows third on mobile (after thumbnails), second on desktop -->
+      <div class="project-info order-3 lg:order-2 flex flex-col justify-center">
+        <h3 class="text-2xl md:text-3xl font-bold text-gray-800 mb-4">{project.heading}</h3>
+        <p class="text-lg text-gray-600 mb-6">{project.subHeading}</p>
+        <div class="text-gray-700">
+          <p class="text-base leading-relaxed">{project.description}</p>
+        </div>
+      </div>
       
     </div>
   </div>
