@@ -49,8 +49,28 @@ const serviceCards = [
 >
   <!--Hero Section -->
   <div class="hero-section relative py-20 flex items-center">
-    <div class="absolute inset-0">
-      <video autoplay loop muted playsinline preload="metadata" class="w-full h-full object-cover" poster="/images/mtvpb_4-3.webp">
+    <!-- Hero background with optimized loading strategy -->
+    <div class="absolute inset-0" id="hero-background">
+      <!-- Show poster image immediately for LCP, load video lazily -->
+      <img 
+        src="/images/mtvpb_4-3.webp" 
+        alt="Mountain View Pole Buildings construction" 
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+        id="hero-poster"
+      />
+      <!-- Video loads after initial render -->
+      <video 
+        autoplay 
+        loop 
+        muted 
+        playsinline 
+        preload="none"
+        class="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-1000"
+        id="hero-video"
+        style="display: none;"
+      >
         <source src="/video/trussRaise-square-06-23-2023_1.mp4" type="video/mp4" />
       </video>
       <div class="absolute inset-0 bg-gradient-to-t from-[#304A61]/90 from-20% to-[#304A61]/30 md:bg-gradient-to-r md:from-[#304A61]/90 md:from-20% md:via-[#304A61]/50 md:via-50% md:to-transparent"></div>
@@ -117,6 +137,31 @@ const serviceCards = [
     <QuoteForm />
   </section>
 </Layout>
+
+<script>
+// Optimized hero video loading - load after critical content
+document.addEventListener('DOMContentLoaded', () => {
+  const heroVideo = document.getElementById('hero-video');
+  const heroPoster = document.getElementById('hero-poster');
+  
+  if (heroVideo && heroPoster) {
+    // Load video after a short delay to prioritize LCP
+    setTimeout(() => {
+      heroVideo.style.display = 'block';
+      heroVideo.load(); // Start loading the video
+      
+      // Once video can play, fade it in
+      heroVideo.addEventListener('canplay', () => {
+        heroVideo.style.opacity = '1';
+        // Optional: hide poster after video loads
+        setTimeout(() => {
+          heroPoster.style.opacity = '0.5';
+        }, 1000);
+      }, { once: true });
+    }, 100); // Small delay to let critical content render first
+  }
+});
+</script>
 
 <style>
   .btn-primary {

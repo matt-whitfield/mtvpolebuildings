@@ -79,19 +79,22 @@ const formattedTitle = title === "MTV Pole Buildings" ? title : `${title} | MTV 
 		<!-- Robots (assuming we'll enable indexing in production) -->
 		<meta name="robots" content="index, follow" />
 		
-		<!-- Google tag (gtag.js) - Non-blocking -->
+		<!-- Google tag (gtag.js) - Heavily delayed non-blocking -->
 		<script>
-			// Load Google Analytics asynchronously after page load
+			// Delay Google Analytics even more to prioritize performance
 			window.addEventListener('load', function() {
-				const script = document.createElement('script');
-				script.async = true;
-				script.src = 'https://www.googletagmanager.com/gtag/js?id=G-NPQEFT1PRL';
-				document.head.appendChild(script);
-				
-				window.dataLayer = window.dataLayer || [];
-				function gtag() { window.dataLayer.push(arguments); }
-				gtag('js', new Date());
-				gtag('config', 'G-NPQEFT1PRL');
+				// Wait additional 2 seconds after page load before loading GA
+				setTimeout(function() {
+					const script = document.createElement('script');
+					script.async = true;
+					script.src = 'https://www.googletagmanager.com/gtag/js?id=G-NPQEFT1PRL';
+					document.head.appendChild(script);
+					
+					window.dataLayer = window.dataLayer || [];
+					function gtag() { window.dataLayer.push(arguments); }
+					gtag('js', new Date());
+					gtag('config', 'G-NPQEFT1PRL');
+				}, 2000);
 			});
 		</script>
 
