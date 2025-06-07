@@ -16,7 +16,7 @@ interface Props {
 const { 
 	title = "MTV Pole Buildings",
 	description = "Mountain View Pole Buildings specializes in custom pole buildings with over 40 years of experience. Serving North Idaho and Western Montana.",
-	image = "/images/mtvpb_4-3.jpg",
+	image = "/images/mtvpb_4-3.webp",
 	canonicalURL = Astro.url.href,
 	ogType = "website",
 	twitterCard = "summary_large_image",
@@ -44,6 +44,14 @@ const formattedTitle = title === "MTV Pole Buildings" ? title : `${title} | MTV 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		
+		<!-- Preconnect to external domains for faster loading -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		
+		<!-- Load Google Fonts asynchronously -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" media="print" onload="this.media='all'">
+		<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap"></noscript>
+		
 		<!-- Primary Meta Tags -->
 		<title>{formattedTitle}</title>
 		<meta name="title" content={formattedTitle} />
@@ -70,6 +78,22 @@ const formattedTitle = title === "MTV Pole Buildings" ? title : `${title} | MTV 
 		
 		<!-- Robots (assuming we'll enable indexing in production) -->
 		<meta name="robots" content="index, follow" />
+		
+		<!-- Google tag (gtag.js) - Non-blocking -->
+		<script>
+			// Load Google Analytics asynchronously after page load
+			window.addEventListener('load', function() {
+				const script = document.createElement('script');
+				script.async = true;
+				script.src = 'https://www.googletagmanager.com/gtag/js?id=G-NPQEFT1PRL';
+				document.head.appendChild(script);
+				
+				window.dataLayer = window.dataLayer || [];
+				function gtag() { window.dataLayer.push(arguments); }
+				gtag('js', new Date());
+				gtag('config', 'G-NPQEFT1PRL');
+			});
+		</script>
 
 		<!-- Structured Data (JSON-LD) -->
 		<script type="application/ld+json" set:html={JSON.stringify({
@@ -78,12 +102,7 @@ const formattedTitle = title === "MTV Pole Buildings" ? title : `${title} | MTV 
       "name": "Mountain View Pole Buildings",
       "url": "https://mountainviewpolebuildings.com",
       "description": "Mountain View Pole Buildings specializes in custom pole buildings with over 40 years of experience. Serving North Idaho and Western Montana",
-      "logo": "",
-      "potentialAction": {
-        "@type": "ContactAction",
-        "target": "https://mountainviewpolebuildings.com/#quote-form",
-        "name": "Request a Quote"
-      },
+      "logo": "/images/mtvpb-svg-logo.svg"
     })}></script>
 		<script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
@@ -116,33 +135,6 @@ const formattedTitle = title === "MTV Pole Buildings" ? title : `${title} | MTV 
         "telephone": "+208-512-4282",
         "contactType": "customer service"
       },
-      // "aggregateRating": {
-      //   "@type": "AggregateRating",
-      //   "ratingValue": "5",
-      //   "reviewCount": "12"
-      // },
-      // "review": [
-      //   {
-      //     "@type": "Review",
-      //     "author": "John Doe",
-      //     "datePublished": "2024-04-10",
-      //     "reviewBody": "Excellent craftsmanship and communication. Highly recommend!",
-      //     "reviewRating": {
-      //       "@type": "Rating",
-      //       "ratingValue": "5"
-      //     }
-      //   },
-      //   {
-      //     "@type": "Review",
-      //     "author": "Jane Smith",
-      //     "datePublished": "2024-03-15",
-      //     "reviewBody": "Professional team and quality work. Will use again.",
-      //     "reviewRating": {
-      //       "@type": "Rating",
-      //       "ratingValue": "5"
-      //     }
-      //   }
-      // ]
     })}></script>
 		
 		<!-- Additional head content from individual pages -->
@@ -157,26 +149,28 @@ const formattedTitle = title === "MTV Pole Buildings" ? title : `${title} | MTV 
 	</body>
 </html>
 
-<script>
-	// Smooth scrolling for all anchor links
+<script is:inline>
+	// Optimized smooth scrolling for anchor links - deferred
 	document.addEventListener('DOMContentLoaded', () => {
-		document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-			anchor.addEventListener('click', function(this: HTMLAnchorElement, e) {
-				e.preventDefault();
-				
-				const targetId = this.getAttribute('href');
-				if (!targetId || targetId === '#') return;
-				
-				const targetElement = document.querySelector(targetId);
-				if (!targetElement) return;
-				
-				const htmlElement = targetElement as HTMLElement;
+		// Use event delegation for better performance
+		document.addEventListener('click', function(e) {
+			if (!e.target) return;
+			const target = e.target.closest('a[href^="#"]');
+			if (!target) return;
+			
+			e.preventDefault();
+			const targetId = target.getAttribute('href');
+			if (!targetId || targetId === '#') return;
+			
+			const targetElement = document.querySelector(targetId);
+			if (!targetElement) return;
+			
+			// Use requestAnimationFrame for smoother performance
+			requestAnimationFrame(() => {
 				window.scrollTo({
-					top: htmlElement.offsetTop - 100, // Offset to account for fixed header
+					top: targetElement.offsetTop - 100,
 					behavior: 'smooth'
 				});
-				
-				// Update URL hash without jumping
 				history.pushState('', '', targetId);
 			});
 		});

@@ -40,6 +40,8 @@ const galleryImages = [
               <img 
                 src={image.src} 
                 alt={image.alt} 
+                width="400"
+                height="400"
                 class="w-full h-full object-cover"
                 loading="lazy"
               />
@@ -147,114 +149,38 @@ const galleryImages = [
 </style>
 
 <script>
-  // Wait for the DOM to be fully loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const lightbox = document.getElementById('gallery-lightbox') as HTMLDivElement;
-    const lightboxImage = document.getElementById('lightbox-image') as HTMLImageElement;
-    const imageCaption = document.getElementById('image-caption');
-    const closeButton = document.getElementById('close-lightbox');
-    const prevButton = document.getElementById('prev-image');
-    const nextButton = document.getElementById('next-image');
-    
-    if (!lightbox || !lightboxImage || !imageCaption || !closeButton || !prevButton || !nextButton) {
-      console.error('Required gallery elements not found');
-      return;
-    }
-
-    // Gallery images data from the component
-    const galleryImages = [
-      {
-        src: '/images/workGallery/mtvpb old photos-10.webp',
-        alt: 'Construction project 1'
-      },
-      {
-        src: '/images/workGallery/mtvpb old photos-2.webp',
-        alt: 'Construction project 2'
-      },
-      {
-        src: '/images/workGallery/mtvpb old photos-7.webp',
-        alt: 'Construction project 3'
-      },
-      {
-        src: '/images/workGallery/mtvpb_9-4.webp',
-        alt: 'Construction project 4'
-      },
-      {
-        src: '/images/workGallery/mtvpb_9-7.webp',
-        alt: 'Construction project 5'
-      },
-      {
-        src: '/images/workGallery/mtvpb_9-8.webp',
-        alt: 'Construction project 6'
-      }
-    ];
-    
-    let currentIndex = 0;
-    
-    // Open lightbox when clicking on an image
-    galleryItems.forEach((item, index) => {
-      item.addEventListener('click', () => {
-        currentIndex = index;
-        showImage(currentIndex);
-        lightbox.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling when lightbox is open
-      });
-    });
-    
-    // Close lightbox when clicking the close button
-    closeButton.addEventListener('click', closeLightbox);
-    
-    // Close lightbox when clicking outside the image
-    lightbox.addEventListener('click', (e: MouseEvent) => {
-      if (e.target === lightbox) {
-        closeLightbox();
-      }
-    });
-    
-    // Navigate to previous image
-    prevButton.addEventListener('click', (e: MouseEvent) => {
-      e.stopPropagation();
-      currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-      showImage(currentIndex);
-    });
-    
-    // Navigate to next image
-    nextButton.addEventListener('click', (e: MouseEvent) => {
-      e.stopPropagation();
-      currentIndex = (currentIndex + 1) % galleryImages.length;
-      showImage(currentIndex);
-    });
-    
-    // Listen for keyboard navigation
-    document.addEventListener('keydown', (e: KeyboardEvent) => {
-      if (lightbox.classList.contains('hidden')) return;
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const { LightboxGallery } = await import('/src/utils/gallery-utils.js');
       
-      if (e.key === 'Escape') {
-        closeLightbox();
-      } else if (e.key === 'ArrowLeft') {
-        currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
-        showImage(currentIndex);
-      } else if (e.key === 'ArrowRight') {
-        currentIndex = (currentIndex + 1) % galleryImages.length;
-        showImage(currentIndex);
-      }
-    });
-    
-    // Function to show the current image in the lightbox
-    function showImage(index: number): void {
-      const image = galleryImages[index];
-      if (lightboxImage && imageCaption) {
-        lightboxImage.src = image.src;
-        lightboxImage.alt = image.alt;
-        imageCaption.textContent = image.alt;
-      }
-    }
-    
-    // Function to close the lightbox
-    function closeLightbox(): void {
-      lightbox.classList.add('hidden');
-      document.body.style.overflow = ''; // Restore scrolling
+      const galleryImages = [
+        { src: '/images/workGallery/mtvpb old photos-10.webp', alt: 'Construction project 1' },
+        { src: '/images/workGallery/mtvpb old photos-2.webp', alt: 'Construction project 2' },
+        { src: '/images/workGallery/mtvpb old photos-7.webp', alt: 'Construction project 3' },
+        { src: '/images/workGallery/mtvpb_9-4.webp', alt: 'Construction project 4' },
+        { src: '/images/workGallery/mtvpb_9-7.webp', alt: 'Construction project 5' },
+        { src: '/images/workGallery/mtvpb_9-8.webp', alt: 'Construction project 6' }
+      ];
+
+      new LightboxGallery({
+        gallerySelector: '.gallery-item',
+        lightboxId: 'gallery-lightbox',
+        lightboxImageId: 'lightbox-image',
+        imageCaptionId: 'image-caption',
+        closeButtonId: 'close-lightbox',
+        prevButtonId: 'prev-image',
+        nextButtonId: 'next-image',
+        images: galleryImages
+      });
+    } catch (error) {
+      console.error('Failed to load gallery utilities:', error);
+      // Fallback to basic functionality
+      const galleryItems = document.querySelectorAll('.gallery-item');
+      galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          console.log(`Gallery item ${index} clicked`);
+        });
+      });
     }
   });
 </script>

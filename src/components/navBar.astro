@@ -155,7 +155,7 @@ const isActive = (path: string) => {
       }
       
       lastScrollTop = scrollTop;
-    });
+    }, { passive: true });
   });
 </script>
 

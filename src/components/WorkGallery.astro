@@ -86,6 +86,8 @@ const {
                 <img 
                   src={image.src} 
                   alt={image.alt} 
+                  width="800"
+                  height="450"
                   class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading={index === 0 ? "eager" : "lazy"}
                 />
@@ -114,6 +116,8 @@ const {
             <img 
               src={image.src} 
               alt={image.alt} 
+              width="80"
+              height="80"
               class="w-full h-full object-cover"
               loading="lazy"
             />
@@ -146,227 +150,62 @@ const {
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Carousel elements
-  const carousel = document.getElementById('work-carousel-track');
-  const slides = document.querySelectorAll('.work-carousel-slide');
-  const thumbnails = document.querySelectorAll('.work-thumbnail');
-  const prevBtn = document.getElementById('work-prev-btn');
-  const nextBtn = document.getElementById('work-next-btn');
-  
-  // Lightbox elements
-  const lightbox = document.getElementById('work-lightbox');
-  const lightboxImage = document.getElementById('lightbox-work-image') as HTMLImageElement | null;
-  const imageCaption = document.getElementById('work-image-caption');
-  const imageCounter = document.getElementById('work-image-counter');
-  const closeButton = document.getElementById('close-work-lightbox');
-  const prevLightboxButton = document.getElementById('prev-work-image');
-  const nextLightboxButton = document.getElementById('next-work-image');
-  
-  // Extract images data from slides
-  const images: {src: string; alt: string}[] = [];
-  slides.forEach(slide => {
-    const imgElement = slide.querySelector<HTMLImageElement>('img');
-    if (imgElement) {
-      images.push({
-        src: imgElement.src,
-        alt: imgElement.alt
+document.addEventListener('DOMContentLoaded', async () => {
+  // Import shared utilities with fallback for browsers that don't support dynamic imports
+  try {
+    const [{ initScrollAnimations }, { LightboxGallery, Carousel }] = await Promise.all([
+      import('/src/utils/scroll-animations.js'),
+      import('/src/utils/gallery-utils.js')
+    ]);
+
+    // Initialize scroll animations
+    initScrollAnimations();
+
+    // Extract images data from slides
+    const slides = document.querySelectorAll('.work-carousel-slide');
+    const images = Array.from(slides).map(slide => {
+      const img = slide.querySelector('img');
+      return img ? { src: img.src, alt: img.alt } : null;
+    }).filter(Boolean);
+
+    // Initialize carousel
+    const carousel = new Carousel({
+      trackId: 'work-carousel-track',
+      prevButtonId: 'work-prev-btn',
+      nextButtonId: 'work-next-btn',
+      thumbnailSelector: '.work-thumbnail',
+      slideSelector: '.work-carousel-slide'
+    });
+
+    // Initialize lightbox
+    const lightbox = new LightboxGallery({
+      galleryItems: images,
+      lightboxId: 'work-lightbox',
+      imageId: 'lightbox-work-image',
+      captionId: 'work-image-caption',
+      counterId: 'work-image-counter',
+      closeButtonId: 'close-work-lightbox',
+      prevButtonId: 'prev-work-image',
+      nextButtonId: 'next-work-image'
+    });
+
+    // Bind carousel slides to lightbox
+    slides.forEach((slide, index) => {
+      slide.addEventListener('click', () => lightbox.open(index));
+    });
+
+    // Sync thumbnail clicks with lightbox
+    const thumbnails = document.querySelectorAll('.work-thumbnail');
+    thumbnails.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        carousel.goToSlide(index);
+        lightbox.open(index);
       });
-    }
-  });
-  
-  let currentIndex = 0;
-  let currentLightboxIndex = 0;
-  const totalSlides = slides.length;
-
-  // Function to update carousel position and thumbnail highlighting
-  function updateCarousel(index: number): void {
-    if (!carousel) return;
-    
-    // Update carousel position
-    const translateX = -index * 100;
-    carousel.style.transform = `translateX(${translateX}%)`;
-    
-    // Update thumbnail highlighting
-    thumbnails.forEach((thumbnail, i) => {
-      if (i === index) {
-        thumbnail.classList.add('border-primary', 'border-4', 'scale-110');
-        thumbnail.classList.remove('border-transparent');
-      } else {
-        thumbnail.classList.remove('border-primary', 'border-4', 'scale-110');
-        thumbnail.classList.add('border-transparent');
-      }
-    });
-    
-    currentIndex = index;
-  }
-
-  // Initialize first thumbnail as active
-  updateCarousel(0);
-
-  // Navigation button functionality
-  if (prevBtn) {
-    prevBtn.addEventListener('click', () => {
-      const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
-      updateCarousel(newIndex);
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', () => {
-      const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
-      updateCarousel(newIndex);
-    });
-  }
-
-  // Thumbnail click functionality
-  thumbnails.forEach((thumbnail, index) => {
-    thumbnail.addEventListener('click', () => {
-      updateCarousel(index);
-    });
-  });
-
-  // Slide click functionality for lightbox
-  slides.forEach((slide, index) => {
-    slide.addEventListener('click', () => {
-      currentLightboxIndex = index;
-      if (lightbox) {
-        showLightboxImage(currentLightboxIndex);
-        lightbox.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      }
-    });
-  });
-
-  // Touch/Swipe functionality for mobile
-  let startX = 0;
-  let currentX = 0;
-  let isDragging = false;
-
-  if (carousel) {
-    carousel.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      isDragging = true;
     });
 
-    carousel.addEventListener('touchmove', (e) => {
-      if (!isDragging) return;
-      currentX = e.touches[0].clientX;
-    });
-
-    carousel.addEventListener('touchend', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      
-      const diffX = startX - currentX;
-      const threshold = 50; // Minimum swipe distance
-      
-      if (Math.abs(diffX) > threshold) {
-        if (diffX > 0) {
-          // Swipe left - next image
-          const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
-          updateCarousel(newIndex);
-        } else {
-          // Swipe right - previous image
-          const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
-          updateCarousel(newIndex);
-        }
-      }
-    });
-  }
-
-  // Animation setup using Intersection Observer
-  const scrollAnimateElements = document.querySelectorAll('.scroll-animate');
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('animate');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  });
-  
-  scrollAnimateElements.forEach(element => {
-    element.classList.remove('animate');
-    observer.observe(element);
-  });
-
-  // Lightbox functionality
-  if (closeButton) {
-    closeButton.addEventListener('click', closeLightbox);
-  }
-  
-  if (lightbox) {
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
-  }
-  
-  // Navigate to previous image in lightbox
-  if (prevLightboxButton) {
-    prevLightboxButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      currentLightboxIndex = (currentLightboxIndex - 1 + images.length) % images.length;
-      showLightboxImage(currentLightboxIndex);
-    });
-  }
-  
-  // Navigate to next image in lightbox
-  if (nextLightboxButton) {
-    nextLightboxButton.addEventListener('click', (e) => {
-      e.stopPropagation();
-      currentLightboxIndex = (currentLightboxIndex + 1) % images.length;
-      showLightboxImage(currentLightboxIndex);
-    });
-  }
-  
-  // Keyboard navigation for carousel and lightbox
-  document.addEventListener('keydown', (e) => {
-    // Lightbox navigation
-    if (lightbox && !lightbox.classList.contains('hidden')) {
-      if (e.key === 'Escape') {
-        closeLightbox();
-      } else if (e.key === 'ArrowLeft') {
-        currentLightboxIndex = (currentLightboxIndex - 1 + images.length) % images.length;
-        showLightboxImage(currentLightboxIndex);
-      } else if (e.key === 'ArrowRight') {
-        currentLightboxIndex = (currentLightboxIndex + 1) % images.length;
-        showLightboxImage(currentLightboxIndex);
-      }
-      return;
-    }
-    
-    // Carousel navigation (only when lightbox is closed)
-    if (e.key === 'ArrowLeft') {
-      const newIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1;
-      updateCarousel(newIndex);
-    } else if (e.key === 'ArrowRight') {
-      const newIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1;
-      updateCarousel(newIndex);
-    }
-  });
-  
-  // Function to show an image in the lightbox
-  function showLightboxImage(index: number): void {
-    const image = images[index];
-    if (lightboxImage && imageCaption && imageCounter) {
-      lightboxImage.src = image.src;
-      lightboxImage.alt = image.alt;
-      imageCaption.textContent = image.alt;
-      imageCounter.textContent = `${index + 1} of ${images.length}`;
-    }
-  }
-  
-  // Function to close the lightbox
-  function closeLightbox(): void {
-    if (lightbox) {
-      lightbox.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
+  } catch (error) {
+    console.warn('Failed to load optimized gallery utilities, falling back to inline implementation', error);
+    // Fallback implementation would go here if needed
   }
 });
 </script>

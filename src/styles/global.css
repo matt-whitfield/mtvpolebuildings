@@ -4,7 +4,7 @@
 /* postcss-import: ignore */
 /* postcss: ignore */
 
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap');
+/* Remove Google Fonts import - will be loaded asynchronously */
 
 @tailwind base;
 @tailwind components;
@@ -106,8 +106,9 @@
   }
 
   .menu-icon .line {
+    will-change: transform;
     transform-origin: center;
-    transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    transition: transform 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 
   .menu-icon.active {
@@ -115,20 +116,21 @@
   }
 
   .menu-icon.active .line-1 {
-    transform: translate(0px, -1px) rotate(45deg) translate(3px, 13px);
+    transform: translate3d(3px, 12px, 0) rotate(45deg);
   }
 
   .menu-icon.active .line-2 {
-    transform: scaleX(0.85) translateX(2px);
+    transform: translate3d(2px, 0, 0) scaleX(0.85);
   }
 
   .menu-icon.active .line-3 {
-    transform: translate(0px, 1px) rotate(-45deg) translate(3px, -13px);
+    transform: translate3d(3px, -12px, 0) rotate(-45deg);
   }
 
   /* Mobile menu transition */
   #mobile-menu {
-    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: max-height, opacity;
+    transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
     max-height: 0;
     overflow: hidden;
   }
@@ -353,16 +355,17 @@
   
   /* Gallery item hover and highlighting effects */
   .work-gallery-item {
+    will-change: transform;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
   .work-gallery-item:hover {
-    transform: translateY(-5px);
+    transform: translate3d(0, -5px, 0);
   }
   
   /* Gallery item highlighting for active image */
   .work-gallery-item.highlighted {
-    transform: translateY(-5px) scale(1.05);
+    transform: translate3d(0, -5px, 0) scale3d(1.05, 1.05, 1);
   }
   
   .work-gallery-item.highlighted .work-gallery-item-container {
@@ -436,21 +439,22 @@
   /* Animation styles for scroll animations */
   .scroll-animate {
     opacity: 0;
-    transition: all 0.8s ease-out;
+    will-change: transform, opacity;
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
   }
   
   /* Animation classes */
   .scroll-animate.slide-up {
-    transform: translateY(30px);
+    transform: translate3d(0, 30px, 0);
   }
   
   .scroll-animate.slide-right {
-    transform: translateX(-30px);
+    transform: translate3d(-30px, 0, 0);
   }
   
   .scroll-animate.fade-in {
     opacity: 0;
-    transform: scale(1.02);
+    transform: scale3d(1.02, 1.02, 1);
   }
   
   .scroll-animate.fade-in-delay {
@@ -460,16 +464,17 @@
   
   .scroll-animate.animate {
     opacity: 1;
-    transform: translate(0) scale(1);
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   }
 
   /* Project Showcase specific styles */
   .project-gallery-item {
+    will-change: transform;
     transition: transform 0.4s ease;
   }
 
   .project-gallery-item:hover {
-    transform: translateY(-5px);
+    transform: translate3d(0, -5px, 0);
   }
 }
 

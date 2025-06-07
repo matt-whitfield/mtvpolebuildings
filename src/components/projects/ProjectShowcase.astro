@@ -50,6 +50,8 @@ const {
               id="featured-image"
               src={project.images[0]?.src} 
               alt={project.images[0]?.alt} 
+              width="800"
+              height="600"
               class="w-full h-[300px] lg:h-full object-cover transition-all duration-500"
               loading="eager"
             />
@@ -68,6 +70,8 @@ const {
                 <img 
                   src={image.src} 
                   alt={image.alt} 
+                  width="96"
+                  height="96"
                   class="w-20 h-20 md:w-24 md:h-24 object-cover hover:scale-105 transition-transform duration-300"
                   loading="lazy"
                 />
@@ -107,168 +111,129 @@ const {
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Get main featured image elements
-    const featuredImage = document.getElementById('featured-image') as HTMLImageElement | null;
-    const featuredImageCaption = document.getElementById('featured-image-caption');
-    const featuredImageCaptionDesktop = document.getElementById('featured-image-caption-desktop');
-    const mainFeaturedContainer = document.getElementById('main-featured-image');
-    
-    // Get thumbnail gallery items and lightbox elements
-    const thumbnailItems = document.querySelectorAll<HTMLDivElement>('.project-thumbnail');
-    const galleryItems = document.querySelectorAll<HTMLDivElement>('.project-gallery-item');
-    const lightbox = document.getElementById('project-lightbox');
-    const lightboxImage = document.getElementById('lightbox-project-image') as HTMLImageElement | null;
-    const imageCaption = document.getElementById('project-image-caption');
-    const imageCounter = document.getElementById('image-counter');
-    const closeButton = document.getElementById('close-project-lightbox');
-    const prevButton = document.getElementById('prev-project-image');
-    const nextButton = document.getElementById('next-project-image');
-    
-    // Extract images data from thumbnail items
-    const images: {src: string; alt: string}[] = [];
-    thumbnailItems.forEach(item => {
-      const imgElement = item.querySelector<HTMLImageElement>('img');
-      if (imgElement) {
-        images.push({
-          src: imgElement.src,
-          alt: imgElement.alt
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const { LightboxGallery } = await import('/src/utils/gallery-utils.js');
+      
+      // Get main featured image elements
+      const featuredImage = document.getElementById('featured-image') as HTMLImageElement | null;
+      const featuredImageCaption = document.getElementById('featured-image-caption');
+      const featuredImageCaptionDesktop = document.getElementById('featured-image-caption-desktop');
+      const mainFeaturedContainer = document.getElementById('main-featured-image');
+      
+      // Get thumbnail gallery items
+      const thumbnailItems = document.querySelectorAll<HTMLDivElement>('.project-thumbnail');
+      
+      // Extract images data from thumbnail items
+      const images: {src: string; alt: string}[] = [];
+      thumbnailItems.forEach(item => {
+        const imgElement = item.querySelector<HTMLImageElement>('img');
+        if (imgElement) {
+          images.push({
+            src: imgElement.src,
+            alt: imgElement.alt
+          });
+        }
+      });
+      
+      let currentFeaturedIndex = 0;
+      
+      // Function to update the main featured image
+      function updateFeaturedImage(index: number): void {
+        if (featuredImage && images[index]) {
+          const image = images[index];
+          
+          // Add fade-out effect
+          featuredImage.style.opacity = '0';
+          
+          setTimeout(() => {
+            featuredImage.src = image.src;
+            featuredImage.alt = image.alt;
+            
+            // Update both captions (mobile and desktop)
+            if (featuredImageCaption) {
+              featuredImageCaption.textContent = image.alt;
+            }
+            if (featuredImageCaptionDesktop) {
+              featuredImageCaptionDesktop.textContent = image.alt;
+            }
+            
+            // Update the main container's data-index
+            if (mainFeaturedContainer) {
+              mainFeaturedContainer.setAttribute('data-index', index.toString());
+            }
+            
+            // Add fade-in effect
+            featuredImage.style.opacity = '1';
+          }, 150);
+          
+          currentFeaturedIndex = index;
+        }
+      }
+      
+      // Function to update thumbnail selection
+      function updateThumbnailSelection(activeIndex: number): void {
+        thumbnailItems.forEach((item, index) => {
+          if (index === activeIndex) {
+            item.classList.add('border-primary', 'border-4', 'scale-110');
+            item.classList.remove('border-transparent');
+          } else {
+            item.classList.remove('border-primary', 'border-4', 'scale-110');
+            item.classList.add('border-transparent');
+          }
         });
       }
-    });
-    
-    let currentFeaturedIndex = 0;
-    let currentLightboxIndex = 0;
-    
-    // Function to update the main featured image
-    function updateFeaturedImage(index: number): void {
-      if (featuredImage && images[index]) {
-        const image = images[index];
-        
-        // Add fade-out effect
-        featuredImage.style.opacity = '0';
-        
-        setTimeout(() => {
-          featuredImage.src = image.src;
-          featuredImage.alt = image.alt;
-          
-          // Update both captions (mobile and desktop)
-          if (featuredImageCaption) {
-            featuredImageCaption.textContent = image.alt;
-          }
-          if (featuredImageCaptionDesktop) {
-            featuredImageCaptionDesktop.textContent = image.alt;
-          }
-          
-          // Update the main container's data-index
-          if (mainFeaturedContainer) {
-            mainFeaturedContainer.setAttribute('data-index', index.toString());
-          }
-          
-          // Add fade-in effect
-          featuredImage.style.opacity = '1';
-        }, 150);
-        
-        currentFeaturedIndex = index;
-      }
-    }
-    
-    // Function to update thumbnail selection
-    function updateThumbnailSelection(activeIndex: number): void {
-      thumbnailItems.forEach((item, index) => {
-        if (index === activeIndex) {
-          item.classList.add('border-primary', 'border-4', 'scale-110');
-          item.classList.remove('border-transparent');
-        } else {
-          item.classList.remove('border-primary', 'border-4', 'scale-110');
-          item.classList.add('border-transparent');
-        }
-      });
-    }
-    
-    // Handle thumbnail clicks to update main featured image (no lightbox)
-    thumbnailItems.forEach((item, index) => {
-      item.addEventListener('click', () => {
-        updateFeaturedImage(index);
-        updateThumbnailSelection(index);
-      });
-    });
-    
-    // Open lightbox only when clicking on the main featured image
-    galleryItems.forEach((item) => {
-      item.addEventListener('click', (e) => {
-        // Use the current featured image index for lightbox
-        currentLightboxIndex = currentFeaturedIndex;
-        
-        if (lightbox) {
-          showImage(currentLightboxIndex);
-          lightbox.classList.remove('hidden');
-          document.body.style.overflow = 'hidden';
-        }
-      });
-    });
-    
-    // Close lightbox
-    if (closeButton) {
-      closeButton.addEventListener('click', closeLightbox);
-    }
-    
-    if (lightbox) {
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closeLightbox();
-      });
-    }
-    
-    // Navigate to previous image in lightbox
-    if (prevButton) {
-      prevButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        currentLightboxIndex = (currentLightboxIndex - 1 + images.length) % images.length;
-        showImage(currentLightboxIndex);
-      });
-    }
-    
-    // Navigate to next image in lightbox
-    if (nextButton) {
-      nextButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        currentLightboxIndex = (currentLightboxIndex + 1) % images.length;
-        showImage(currentLightboxIndex);
-      });
-    }
-    
-    // Keyboard navigation for lightbox
-    document.addEventListener('keydown', (e) => {
-      if (lightbox && lightbox.classList.contains('hidden')) return;
       
-      if (e.key === 'Escape') {
-        closeLightbox();
-      } else if (e.key === 'ArrowLeft') {
-        currentLightboxIndex = (currentLightboxIndex - 1 + images.length) % images.length;
-        showImage(currentLightboxIndex);
-      } else if (e.key === 'ArrowRight') {
-        currentLightboxIndex = (currentLightboxIndex + 1) % images.length;
-        showImage(currentLightboxIndex);
-      }
-    });
-    
-    // Function to show an image in the lightbox
-    function showImage(index: number): void {
-      const image = images[index];
-      if (lightboxImage && imageCaption && imageCounter) {
-        lightboxImage.src = image.src;
-        lightboxImage.alt = image.alt;
-        imageCaption.textContent = image.alt;
-        imageCounter.textContent = `${index + 1} of ${images.length}`;
-      }
-    }
-    
-    // Function to close the lightbox
-    function closeLightbox(): void {
-      if (lightbox) {
-        lightbox.classList.add('hidden');
-        document.body.style.overflow = '';
-      }
+      // Handle thumbnail clicks to update main featured image (no lightbox)
+      thumbnailItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          updateFeaturedImage(index);
+          updateThumbnailSelection(index);
+        });
+      });
+      
+      // Initialize lightbox for project images
+      const lightboxGallery = new LightboxGallery({
+        gallerySelector: '.project-gallery-item',
+        lightboxId: 'project-lightbox',
+        lightboxImageId: 'lightbox-project-image',
+        imageCaptionId: 'project-image-caption',
+        closeButtonId: 'close-project-lightbox',
+        prevButtonId: 'prev-project-image',
+        nextButtonId: 'next-project-image',
+        images: images,
+        customShowImage: (index) => {
+          // Custom image display with counter
+          const image = images[index];
+          const lightboxImage = document.getElementById('lightbox-project-image') as HTMLImageElement;
+          const imageCaption = document.getElementById('project-image-caption');
+          const imageCounter = document.getElementById('image-counter');
+          
+          if (lightboxImage && imageCaption) {
+            lightboxImage.src = image.src;
+            lightboxImage.alt = image.alt;
+            imageCaption.textContent = image.alt;
+          }
+          
+          if (imageCounter) {
+            imageCounter.textContent = `${index + 1} of ${images.length}`;
+          }
+        },
+        onOpen: (index) => {
+          // Use the current featured image index for lightbox
+          return currentFeaturedIndex;
+        }
+      });
+      
+    } catch (error) {
+      console.error('Failed to load gallery utilities:', error);
+      // Fallback to basic functionality
+      const galleryItems = document.querySelectorAll('.project-gallery-item');
+      galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          console.log(`Project gallery item ${index} clicked`);
+        });
+      });
     }
   });
 </script>

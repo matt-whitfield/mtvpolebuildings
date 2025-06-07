@@ -88,6 +88,8 @@ const shadowClass = `shadow-${imageShadow}`;
           <img 
             src={imageSrc} 
             alt={imageAlt} 
+            width="800"
+            height="600"
             class={`w-full h-full object-${imageObjectFit} ${imageScale !== '100' ? `scale-${imageScale} transform origin-center` : ''}`}
           />
         </div>
@@ -108,29 +110,8 @@ const shadowClass = `shadow-${imageShadow}`;
 </section>
 
 <script>
-  // Set up Intersection Observer to detect when elements enter the viewport
-  document.addEventListener('DOMContentLoaded', () => {
-    const scrollAnimateElements = document.querySelectorAll('.scroll-animate');
-    
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate');
-          // Unobserve after animation to improve performance
-          observer.unobserve(entry.target);
-        }
-      });
-    }, {
-      threshold: 0.1,  // Trigger when 10% of the element is visible
-      rootMargin: '0px 0px -50px 0px'  // Slight offset to trigger before fully in view
-    });
-    
-    scrollAnimateElements.forEach(element => {
-      // Reset initial state
-      element.classList.remove('animate');
-      observer.observe(element);
-    });
-  });
+  // Import and use shared scroll animation utility
+  import('/src/utils/scroll-animations.js');
 </script>
 <style>
   /* Base style for scroll animation elements - initially hidden */
