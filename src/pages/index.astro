@@ -48,17 +48,20 @@ const serviceCards = [
   keywords="pole buildings, pole barns, custom construction, North Idaho, Western Montana, licensed contractors"
 >
   <!--Hero Section -->
-  <div class="hero-section relative py-20 flex items-center">
+  <div class="hero-section relative flex items-center" style="min-height: 100vh;">
     <!-- Hero background with optimized loading strategy -->
     <div class="absolute inset-0" id="hero-background">
       <!-- Show poster image immediately for LCP, load video lazily -->
       <img 
-        src="/images/mtvpb_4-3.webp" 
+        src="/images/mtvpb_4-3-hero-optimized.webp" 
         alt="Mountain View Pole Buildings construction" 
         class="w-full h-full object-cover"
         loading="eager"
         fetchpriority="high"
         id="hero-poster"
+        width="1920"
+        height="1920"
+        style="display: block;"
       />
       <!-- Video loads after initial render -->
       <video 
@@ -139,27 +142,25 @@ const serviceCards = [
 </Layout>
 
 <script>
-// Optimized hero video loading - load after critical content
-document.addEventListener('DOMContentLoaded', () => {
-  const heroVideo = document.getElementById('hero-video');
-  const heroPoster = document.getElementById('hero-poster');
-  
-  if (heroVideo && heroPoster) {
-    // Load video after a short delay to prioritize LCP
-    setTimeout(() => {
+// Heavily defer hero video loading - prioritize LCP completely
+window.addEventListener('load', () => {
+  // Wait for page to fully load before even starting video logic
+  setTimeout(() => {
+    const heroVideo = document.getElementById('hero-video');
+    const heroPoster = document.getElementById('hero-poster');
+    
+    if (heroVideo && heroPoster) {
       heroVideo.style.display = 'block';
-      heroVideo.load(); // Start loading the video
+      heroVideo.load();
       
-      // Once video can play, fade it in
       heroVideo.addEventListener('canplay', () => {
         heroVideo.style.opacity = '1';
-        // Optional: hide poster after video loads
         setTimeout(() => {
           heroPoster.style.opacity = '0.5';
         }, 1000);
       }, { once: true });
-    }, 100); // Small delay to let critical content render first
-  }
+    }
+  }, 1000); // Wait 1 second after page load
 });
 </script>
 
