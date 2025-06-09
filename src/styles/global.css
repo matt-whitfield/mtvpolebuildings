@@ -93,6 +93,26 @@
     @apply text-[#1a5276];
   }
 
+  /* Global accessible link styles */
+  .accessible-link {
+    @apply text-blue-700 underline hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200;
+  }
+  
+  /* Alternative accessible button link styles */
+  .accessible-button-link {
+    @apply text-blue-700 font-medium hover:text-blue-800 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200;
+  }
+  
+  /* Accessible link styles for light backgrounds */
+  .accessible-link-light {
+    @apply text-blue-800 underline hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 transition-colors duration-200;
+  }
+  
+  /* Accessible link styles for dark backgrounds */
+  .accessible-link-dark {
+    @apply text-blue-300 underline hover:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-800 transition-colors duration-200;
+  }
+
   /* Mobile menu button icon styling */
   .menu-icon {
     @apply text-primary transition-transform duration-300;
@@ -476,41 +496,17 @@
   .project-gallery-item:hover {
     transform: translate3d(0, -5px, 0);
   }
-}
 
-/* Responsive layout utilities */
-@media (max-width: 768px) {
-  .top-row-contact {
-    display: none;
+  /* Accessible link styling for better contrast and focus */
+  .link-accessible {
+    @apply text-blue-700 underline hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    transition: color 0.2s ease-in-out;
   }
-}
 
-/* Add animation for page text */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  /* Ensure all links have sufficient contrast by default */
+  a:not(.btn-primary):not(.btn-navbar):not(.nav-link):not(.footer-contact-link) {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-/* Correct text animation */
-.text-animate {
-  animation: fade-in-up 0.8s ease-out;
-  animation-fill-mode: forwards; /* Ensure the animation stays in the final state */
-  opacity: 0; /* Start with opacity 0 */
-}
-
-/* Lazy loading styles */
-img[loading="lazy"], video[loading="lazy"] {
-  /* Styles for lazy loaded elements */
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-img[loading="lazy"]:not([src=""]), video[loading="lazy"]:not([src=""]) {
-  opacity: 1;
+  /* Mobile menu button icon styling */
 }

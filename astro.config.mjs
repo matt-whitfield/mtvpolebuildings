@@ -1,32 +1,33 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import compress from 'astro-compress';
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind()],
+  integrations: [
+    tailwind(),
+    compress({
+      CSS: true,
+      HTML: true,
+      Image: false, // Keep images as they're already optimized
+      JavaScript: true,
+      SVG: true,
+    })
+  ],
   build: {
-    // Optimize JavaScript and CSS bundles
     minify: true,
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'auto'
   },
   vite: {
     build: {
-      // Reduce bundle size with better tree shaking
       rollupOptions: {
         output: {
-          manualChunks(id) {
-            // Keep vendor libs in separate chunks
-            if (id.includes('node_modules')) {
-              return 'vendor';
-            }
+          manualChunks: {
+            vendor: ['astro', '@astrojs/tailwind']
           }
         }
-      },
-      // Enable compression
-      cssCodeSplit: true,
-      // Minimize unused CSS
-      cssMinify: true
+      }
     }
   }
 });

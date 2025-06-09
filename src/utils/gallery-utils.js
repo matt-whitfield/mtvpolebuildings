@@ -9,6 +9,7 @@ export class LightboxGallery {
     this.lightboxId = config.lightboxId;
     this.lightboxImageId = config.lightboxImageId;
     this.imageCaptionId = config.imageCaptionId;
+    this.counterId = config.counterId;
     this.closeButtonId = config.closeButtonId;
     this.prevButtonId = config.prevButtonId;
     this.nextButtonId = config.nextButtonId;
@@ -24,12 +25,15 @@ export class LightboxGallery {
     this.lightbox = document.getElementById(this.lightboxId);
     this.lightboxImage = document.getElementById(this.lightboxImageId);
     this.imageCaption = document.getElementById(this.imageCaptionId);
+    this.counter = document.getElementById(this.counterId);
     this.closeButton = document.getElementById(this.closeButtonId);
     this.prevButton = document.getElementById(this.prevButtonId);
     this.nextButton = document.getElementById(this.nextButtonId);
-    this.galleryItems = document.querySelectorAll(this.gallerySelector);
+    
+    // Only query gallery items if gallerySelector is provided
+    this.galleryItems = this.gallerySelector ? document.querySelectorAll(this.gallerySelector) : [];
 
-    if (!this.lightbox || !this.lightboxImage || this.galleryItems.length === 0) {
+    if (!this.lightbox || !this.lightboxImage) {
       console.warn('Required lightbox elements not found');
       return;
     }
@@ -38,14 +42,16 @@ export class LightboxGallery {
   }
 
   bindEvents() {
-    // Open lightbox when clicking on gallery items
-    this.galleryItems.forEach((item, index) => {
-      item.addEventListener('click', () => {
-        // Check if there's a custom onOpen handler that returns a different index
-        const startIndex = this.onOpen ? this.onOpen(index) : index;
-        this.open(startIndex);
+    // Open lightbox when clicking on gallery items (only if gallerySelector is provided)
+    if (this.galleryItems.length > 0) {
+      this.galleryItems.forEach((item, index) => {
+        item.addEventListener('click', () => {
+          // Check if there's a custom onOpen handler that returns a different index
+          const startIndex = this.onOpen ? this.onOpen(index) : index;
+          this.open(startIndex);
+        });
       });
-    });
+    }
 
     // Close lightbox
     this.closeButton?.addEventListener('click', () => this.close());
@@ -111,6 +117,10 @@ export class LightboxGallery {
 
       if (this.imageCaption) {
         this.imageCaption.textContent = image.alt;
+      }
+
+      if (this.counter) {
+        this.counter.textContent = `${index + 1} of ${this.images.length}`;
       }
     }
   }

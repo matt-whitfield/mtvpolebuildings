@@ -6,10 +6,9 @@ import LocationContactCard from '../components/LocationContactCard.astro';
 import WorkGallery from '../components/WorkGallery.astro';
 import QuoteForm from '../components/QuoteForm.astro';
 
-// Update the serviceCards array to use the icons from the public/icons folder
 const serviceCards = [
   {
-    icon: '/icons/warehouse.svg', // Updated to use the warehouse icon
+    icon: '/icons/warehouse.svg',
     heading: 'Pole Buildings',
     subheading: 'Custom designed and built to your specifications.'
   },
@@ -17,12 +16,12 @@ const serviceCards = [
     icon: "/icons/hammer.svg",
     heading: "Residential & Commercial Solutions",
     subheading: "Flexible designs that adapt to your home or business requirements"
-},
-{
+  },
+  {
     icon: "/icons/drill.svg",
     heading: "Full-Service Upgrades",
     subheading: "Comprehensive add-ons to maximize your space and property value"
-},
+  },
   {
     icon: '/icons/lock.svg', 
     heading: 'Licensed and Insured',
@@ -47,58 +46,60 @@ const serviceCards = [
   canonicalURL="https://www.mtvpolebuildings.com"
   keywords="pole buildings, pole barns, custom construction, North Idaho, Western Montana, licensed contractors"
 >
-  <!--Hero Section -->
-  <div class="hero-section relative flex items-center" style="min-height: 100vh;">
-    <!-- Hero background with optimized loading strategy -->
-    <div class="absolute inset-0" id="hero-background">
-      <!-- Show poster image immediately for LCP, load video lazily -->
-      <img 
-        src="/images/mtvpb_4-3-hero-optimized.webp" 
-        alt="Mountain View Pole Buildings construction" 
-        class="w-full h-full object-cover"
-        loading="eager"
-        fetchpriority="high"
-        id="hero-poster"
-        width="1920"
-        height="1920"
-        style="display: block;"
-      />
-      <!-- Video loads after initial render -->
+  <!-- Hero Section - Optimized Video Background -->
+  <section class="hero-main relative bg-gray-900">
+    
+    <!-- Video Background - No JavaScript needed -->
+    <div class="absolute inset-0">
       <video 
         autoplay 
         loop 
         muted 
         playsinline 
-        preload="none"
-        class="w-full h-full object-cover absolute inset-0 opacity-0 transition-opacity duration-1000"
-        id="hero-video"
-        style="display: none;"
+        preload="metadata"
+        poster="/images/mtvpb_4-3-hero-optimized.webp"
+        class="h-full w-full object-cover video-bg"
       >
-        <source src="/video/trussRaise-square-06-23-2023_1.mp4" type="video/mp4" />
+        <!-- Desktop sources (768px and up) -->
+        <source src="/video/trussRaise-square-06-23-2023_desktop.webm" type="video/webm" media="(min-width: 768px)">
+        <source src="/video/trussRaise-square-06-23-2023_desktop.mp4" type="video/mp4" media="(min-width: 768px)">
+        
+        <!-- Mobile sources (below 768px) -->
+        <source src="/video/trussRaise-square-06-23-2023_mobile.webm" type="video/webm" media="(max-width: 767px)">
+        <source src="/video/trussRaise-square-06-23-2023_mobile.mp4" type="video/mp4" media="(max-width: 767px)">
+        
+        <!-- Fallback for older browsers -->
+        <source src="/video/trussRaise-square-06-23-2023_1.mp4" type="video/mp4">
+        
+        <!-- Text fallback -->
+        Your browser does not support the video tag.
       </video>
-      <div class="absolute inset-0 bg-gradient-to-t from-[#304A61]/90 from-20% to-[#304A61]/30 md:bg-gradient-to-r md:from-[#304A61]/90 md:from-20% md:via-[#304A61]/50 md:via-50% md:to-transparent"></div>
+      
+      <!-- Gradient Overlay for Better Text Contrast -->
+      <div class="absolute inset-0 bg-gradient-to-t from-[#304A61]/90 from-20% to-[#304A61]/40 md:bg-gradient-to-r md:from-[#304A61]/80 md:from-10% md:via-[#304A61]/60 md:via-50% md:to-[#304A61]/40"></div>
     </div>
-    <div class="relative z-10 flex flex-col items-start justify-end w-full text-left px-4 py-16 max-w-4xl mx-auto lg:ml-16 h-full mt-auto pb-8 md:mt-0 md:pb-0 md:justify-center">
-      <div class="max-w-2xl mt-auto md:mt-0">
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight text-animate">
+    
+    <!-- Content - Positioned at bottom left with proper spacing -->
+    <div class="container relative mx-auto px-4 pb-16 pt-20 z-10 w-full hero-content">
+      <div class="max-w-2xl mx-auto md:mx-0 md:ml-8 lg:ml-16 text-center md:text-left">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
           Licensed Contractors Building with Integrity and Over 40 Years of Experience
         </h1>
-        <p class="text-lg md:text-xl text-white mb-8 animate-slide-up">
+        <p class="text-xl md:text-2xl text-white mb-8">
           Mountain View Pole Buildings operates out of Shoshone county in North Idaho. We're a small contracting outfit serving locally and in Western Montana.
         </p>
-        <a href="#quote-form" class="btn-primary">
+        <a href="#quote-form" class="btn-primary text-lg px-8 py-4">
           Request a Quote
         </a>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- Services/Features Section -->
-  <section class="gradient-section-1 section-padding">
-    <div class="container mx-auto px-4">
-      <!-- <h2 class="text-3xl font-bold text-center mb-12">What We Do</h2>  -->
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+  <!-- Services Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Our Services</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {serviceCards.map(card => (
           <Card 
             icon={card.icon}
@@ -110,73 +111,109 @@ const serviceCards = [
     </div>
   </section>
 
-  
-    <ContentSection/>
-  
+  <!-- Content Section -->
+  <ContentSection />
 
-  
-    <LocationContactCard 
-  title="Our Service Area" 
-  subtitle="Mountain View Pole Buildings proudly serves clients throughout North Idaho and Western Montana"
-  mapRadius={50}
-  
-  quoteButtonUrl="#quote-form"
-  quoteButtonText="Request Your Free Quote"
-/>
-  
+  <!-- Service Area Section -->
+  <LocationContactCard 
+    title="Our Service Area" 
+    subtitle="Mountain View Pole Buildings proudly serves clients throughout North Idaho and Western Montana"
+    mapRadius={50}
+    quoteButtonUrl="#quote-form"
+    quoteButtonText="Request Your Free Quote"
+  />
 
   <!-- Work Gallery Section -->
-  
-    <WorkGallery 
-      title="Our Work"
-      subtitle="Take a look at some of our recent projects"
-      buttonText="See More Work"
-      buttonUrl="/work"
-    />
-  
+  <WorkGallery 
+    title="Our Work"
+    subtitle="Take a look at some of our recent projects"
+    buttonText="See More Work"
+    buttonUrl="/work"
+  />
 
   <!-- Quote Form Section -->
-  <section class="gradient-section-1 section-padding" id="quote-form">
+  <section class="py-16 bg-gray-50" id="quote-form">
     <QuoteForm />
   </section>
 </Layout>
 
 <script>
-// Heavily defer hero video loading - prioritize LCP completely
-window.addEventListener('load', () => {
-  // Wait for page to fully load before even starting video logic
-  setTimeout(() => {
-    const heroVideo = document.getElementById('hero-video');
-    const heroPoster = document.getElementById('hero-poster');
+  // Calculate and set CSS custom properties for header height
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('header');
+    const root = document.documentElement;
     
-    if (heroVideo && heroPoster) {
-      heroVideo.style.display = 'block';
-      heroVideo.load();
+    if (header) {
+      const updateHeaderHeight = () => {
+        const headerHeight = header.offsetHeight;
+        root.style.setProperty('--header-height', `${headerHeight}px`);
+        root.style.setProperty('--header-height-mobile', `${headerHeight}px`);
+      };
       
-      heroVideo.addEventListener('canplay', () => {
-        heroVideo.style.opacity = '1';
-        setTimeout(() => {
-          heroPoster.style.opacity = '0.5';
-        }, 1000);
-      }, { once: true });
+      // Set initial height
+      updateHeaderHeight();
+      
+      // Update on window resize
+      window.addEventListener('resize', updateHeaderHeight);
+      
+      // Update when navigation bar changes (e.g., top bar hides/shows)
+      const observer = new ResizeObserver(updateHeaderHeight);
+      observer.observe(header);
     }
-  }, 1000); // Wait 1 second after page load
-});
+  });
 </script>
 
 <style>
+  .hero-main {
+    /* Calculate height to account for the navigation header */
+    height: calc(100vh - var(--header-height, 120px));
+    min-height: 600px; /* Fallback minimum height */
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  .hero-content {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+  }
+
   .btn-primary {
-    background-color: #1a5276; /* Deeper blue that conveys trust and reliability */
+    background-color: #1a5276;
     color: white;
     padding: 0.75rem 1.5rem;
-    border-radius: 0.125rem;
+    border-radius: 0.25rem;
     font-weight: 600;
     display: inline-block;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    border: 2px solid white;
   }
   
   .btn-primary:hover {
-    background-color: #2471a3; /* Slightly lighter blue on hover for feedback */
+    background-color: #2471a3;
+    transform: translateY(-1px);
   }
+
+  .video-bg {
+    /* Remove opacity transition - video loads naturally */
+  }
+
+  /* Mobile responsiveness for hero text */
+  @media (max-width: 768px) {
+    .hero-main {
+      align-items: center;
+      /* Reduce height calculation for mobile where nav is shorter */
+      height: calc(100vh - var(--header-height-mobile, 100px));
+    }
+    
+    .hero-content {
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  /* JavaScript will update these CSS custom properties based on actual header height */
 </style>

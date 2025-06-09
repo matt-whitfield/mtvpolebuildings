@@ -16,27 +16,27 @@ const {
   buttonUrl = "/work",
   images = [
     {
-      src: '/images/workGallery/mtvpb old photos-10.webp',
+      src: '/images/workGallery/optimized/mtvpb old photos-10.webp',
       alt: 'A backyard deck.'
     },
     {
-      src: '/images/workGallery/mtvpb old photos-2.webp',
+      src: '/images/workGallery/optimized/mtvpb old photos-2.webp',
       alt: 'Early days. This escavator was used to dig the holes, and then raise the poles.'
     },
     {
-      src: '/images/workGallery/mtvpb old photos-7.webp',
+      src: '/images/workGallery/optimized/mtvpb old photos-7.webp',
       alt: 'An outdoor barn built in the early 2000s.'
     },
     {
-      src: '/images/workGallery/mtvpb_9-4.webp',
+      src: '/images/workGallery/optimized/mtvpb_9-4.webp',
       alt: 'One of our recent pole building projects. Seen here without the garage door installed.'
     },
     {
-      src: '/images/workGallery/mtvpb_9-7.webp',
+      src: '/images/workGallery/optimized/mtvpb_9-7.webp',
       alt: 'Another gorgeous custom pole building. We love what we do. This one was constructed in 2023'
     },
     {
-      src: '/images/workGallery/mtvpb_9-8.webp',
+      src: '/images/workGallery/optimized/mtvpb_9-8.webp',
       alt: 'This custom pole building features stainless steel siding that we think looks real nice. Finished in 2023.'
     }
   ]
@@ -177,21 +177,26 @@ document.addEventListener('DOMContentLoaded', async () => {
       slideSelector: '.work-carousel-slide'
     });
 
-    // Initialize lightbox
+    // Initialize lightbox with manual binding (don't use gallerySelector)
     const lightbox = new LightboxGallery({
-      galleryItems: images,
       lightboxId: 'work-lightbox',
-      imageId: 'lightbox-work-image',
-      captionId: 'work-image-caption',
+      lightboxImageId: 'lightbox-work-image',
+      imageCaptionId: 'work-image-caption',
       counterId: 'work-image-counter',
       closeButtonId: 'close-work-lightbox',
       prevButtonId: 'prev-work-image',
-      nextButtonId: 'next-work-image'
+      nextButtonId: 'next-work-image',
+      images: images
     });
+
+    console.log('WorkGallery: Lightbox initialized with', images.length, 'images');
 
     // Bind carousel slides to lightbox
     slides.forEach((slide, index) => {
-      slide.addEventListener('click', () => lightbox.open(index));
+      slide.addEventListener('click', () => {
+        console.log('WorkGallery: Opening lightbox at index', index);
+        lightbox.open(index);
+      });
     });
 
     // Sync thumbnail clicks with lightbox
